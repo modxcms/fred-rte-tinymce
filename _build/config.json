@@ -1,0 +1,19 @@
+{
+    "name": "FredRTETinyMCE",
+    "lowCaseName": "fredrtetinymce",
+    "description": "",
+    "author": "",
+    "version": "0.1.0",
+    "package": {
+        "menus": [],
+        "elements": {
+            "plugins": [
+                {
+                    "name": "FredRTETinyMCE",
+                    "file": "FredRTETinyMCE.php",
+                    "events": ["FredBeforeRender"]
+                }
+            ]
+        }
+    }
+}
