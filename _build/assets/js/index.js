@@ -28,7 +28,7 @@ export default (fred, fredConfig) => {
                         }
 
                         callback(url);
-                    }, 'Browse Files', fred.Finder.getFinderOptionsFromElement(el, (meta.filetype === 'image')));
+                    }, 'fred.fe.browse_files', fred.Finder.getFinderOptionsFromElement(el, (meta.filetype === 'image')));
 
                     finder.render();
 
