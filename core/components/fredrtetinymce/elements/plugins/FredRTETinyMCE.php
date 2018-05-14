@@ -20,6 +20,7 @@ $beforeRender = '
 
 $modx->event->_output = [
     'includes' => $includes, 
-    'beforeRender' => $beforeRender
+    'beforeRender' => $beforeRender,
+    'lexicons' => ['fredrtetinymce:default']
 ];
 return true;

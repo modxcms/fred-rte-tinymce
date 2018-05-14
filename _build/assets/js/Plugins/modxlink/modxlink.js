@@ -36,18 +36,18 @@ export default (fred, fredConfig) => {
                     activeTab,
                     items: [
                         {
-                            title: 'Page',
+                            title: fredConfig.lng('fredrtetinymce.page'),
                             id: 'page',
                             type: 'form',
                             items: [
                                 {
                                     id: 'pagecontainer',
                                     type: 'container',
-                                    html: '<label for="page_url">Page Title</label><select id="page_url"></select>'
+                                    html: '<label for="page_url">' + fredConfig.lng('fredrtetinymce.page_title') + '</label><select id="page_url"></select>'
                                 },
                                 {
                                     type: 'textbox',
-                                    label: `Block on '${fredConfig.pageSettings.pagetitle }'`,
+                                    label: fredConfig.lng('fredrtetinymce.block_on', {page: fredConfig.pageSettings.pagetitle}),
                                     id: 'page_anchor',
                                     value: data.page.anchor,
                                     onkeyup() {
@@ -57,13 +57,13 @@ export default (fred, fredConfig) => {
                             ]
                         },
                         {
-                            title: 'URL',
+                            title: fredConfig.lng('fredrtetinymce.url'),
                             id: 'url',
                             type: 'form',
                             items: [
                                 {
                                     type: 'textbox',
-                                    label: 'URL',
+                                    label: fredConfig.lng('fredrtetinymce.url'),
                                     value: data.url.url,
                                     onkeyup() {
                                         data.url.url = this.value();
@@ -72,13 +72,13 @@ export default (fred, fredConfig) => {
                             ]
                         },
                         {
-                            title: 'Email',
+                            title: fredConfig.lng('fredrtetinymce.email'),
                             id: 'email',
                             type: 'form',
                             items: [
                                 {
                                     type: 'textbox',
-                                    label: 'To',
+                                    label: fredConfig.lng('fredrtetinymce.to'),
                                     value: data.email.to,
                                     onkeyup() {
                                         data.email.to = this.value();
@@ -86,7 +86,7 @@ export default (fred, fredConfig) => {
                                 },
                                 {
                                     type: 'textbox',
-                                    label: 'Subject',
+                                    label: fredConfig.lng('fredrtetinymce.subject'),
                                     value: data.email.subject,
                                     onkeyup() {
                                         data.email.subject = this.value();
@@ -95,7 +95,7 @@ export default (fred, fredConfig) => {
                                 {
                                     type: 'textbox',
                                     multiline: true,
-                                    label: 'Body',
+                                    label: fredConfig.lng('fredrtetinymce.body'),
                                     value: data.email.body,
                                     onkeyup() {
                                         data.email.body = this.value();
@@ -104,12 +104,12 @@ export default (fred, fredConfig) => {
                             ]
                         },
                         {
-                            title: 'Phone',
+                            title: fredConfig.lng('fredrtetinymce.phone'),
                             id: 'phone',
                             type: 'form',
                             items: [{
                                 type: 'textbox',
-                                label: 'Phone',
+                                label: fredConfig.lng('fredrtetinymce.phone'),
                                 value: data.phone.phone,
                                 onkeyup() {
                                     data.phone.phone = this.value();
@@ -117,12 +117,12 @@ export default (fred, fredConfig) => {
                             }]
                         },
                         {
-                            title: 'File',
+                            title: fredConfig.lng('fredrtetinymce.file'),
                             id: 'file',
                             type: 'form',
                             items: [{
                                 type: 'filepicker',
-                                label: 'File',
+                                label: fredConfig.lng('fredrtetinymce.file'),
                                 value: data.file.file,
                                 onchange(e) {
                                     data.file.file = this.value();
@@ -134,7 +134,7 @@ export default (fred, fredConfig) => {
 
                 const linkText = new tinymce.ui.TextBox({
                     type: 'textbox',
-                    label: 'Link Text',
+                    label: fredConfig.lng('fredrtetinymce.link_text'),
                     name: 'link_text',
                     onkeyup() {
                         data.link_text = this.value();
@@ -145,18 +145,18 @@ export default (fred, fredConfig) => {
 
                 // Open window
                 const win = editor.windowManager.open({
-                    title: 'Link to',
+                    title: fredConfig.lng('fredrtetinymce.link_to'),
                     classes: 'fred--modxlink',
                     data,
                     buttons: [
                         {
-                            text: 'Ok', 
+                            text: fredConfig.lng('fredrtetinymce.ok'), 
                             subtype: 'primary', 
                             onclick () {
                                 win.find('form')[0].submit();
                             }
                         },{
-                            text: linkState ? 'Remove Link' : 'Cancel', 
+                            text: linkState ? fredConfig.lng('fredrtetinymce.remove_link') : fredConfig.lng('fredrtetinymce.cancel'), 
                             onclick () {
                                 console.log();
                                 if (linkState) {
@@ -180,7 +180,7 @@ export default (fred, fredConfig) => {
                                 {
                                     type: 'textbox',
                                     name: 'link_title',
-                                    label: 'Link Title',
+                                    label: fredConfig.lng('fredrtetinymce.link_title'),
                                     onkeyup() {
                                         data.link_title = this.value();
                                     }
@@ -189,7 +189,7 @@ export default (fred, fredConfig) => {
                                 {
                                     type: 'textbox',
                                     name: 'classes',
-                                    label: 'Classes',
+                                    label: fredConfig.lng('fredrtetinymce.classes'),
                                     onkeyup() {
                                         data.classes = this.value();
                                     }
@@ -197,7 +197,7 @@ export default (fred, fredConfig) => {
                                 {
                                     type: 'checkbox',
                                     name: 'new_window',
-                                    label: 'New Window',
+                                    label: fredConfig.lng('fredrtetinymce.new_window'),
                                     onchange() {
                                         data.new_window = this.value();
                                     }
@@ -218,11 +218,6 @@ export default (fred, fredConfig) => {
                 });
 
                 const input = document.querySelector('#page_url');
-                // const wrapper = document.createElement('div');
-                // wrapper.classList.add('choices__inner');
-                //
-                // input.parentNode.replaceChild(wrapper, input);
-                // wrapper.appendChild(input);
 
                 let lookupTimeout = null;
                 const lookupCache = {};
@@ -246,7 +241,7 @@ export default (fred, fredConfig) => {
                                 
                                 const pageAnchorEl = document.getElementById('page_anchor-l');
                                 if (pageAnchorEl) {
-                                    pageAnchorEl.innerText = `Block on '${json.data.current.pagetitle}'`;
+                                    pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: json.data.current.pagetitle});
                                 }       
                             }
                         })
@@ -310,7 +305,7 @@ export default (fred, fredConfig) => {
 
                     const pageAnchorEl = document.getElementById('page_anchor-l');
                     if (pageAnchorEl) {
-                        pageAnchorEl.innerText = `Block on '${event.detail.choice.label}'`;
+                        pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: event.detail.choice.label});
                     }
                 });
                 
@@ -321,7 +316,7 @@ export default (fred, fredConfig) => {
                     data.page.url = '';
                     const pageAnchorEl = document.getElementById('page_anchor-l');
                     if (pageAnchorEl) {
-                        pageAnchorEl.innerText = `Block on '${fredConfig.pageSettings.pagetitle }'`;
+                        pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: fredConfig.pageSettings.pagetitle});
                     }
                 });
 
@@ -332,8 +327,8 @@ export default (fred, fredConfig) => {
         return {
             getMetadata: function () {
                 return {
-                    name: "Example plugin",
-                    url: "http://exampleplugindocsurl.com"
+                    name: "MODX Link",
+                    url: "https://modx.com"
                 };
             }
         };
