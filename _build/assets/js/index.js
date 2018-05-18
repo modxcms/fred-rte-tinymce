@@ -3,10 +3,9 @@ import registerPlugins from './Plugins/RegisterPlugins';
 export default (fred, fredConfig) => {
     registerPlugins(fred, fredConfig);
     
-    return (el, onInit, onChange, onFocus, onBlur) => {
+    return (el, config, onInit, onChange, onFocus, onBlur) => {
         setTimeout(() => {
-            tinymce.init({
-                target: el,
+            const finalConfig = {
                 theme: 'inlite',
                 inline: true,
                 plugins: 'modxlink image imagetools',
@@ -17,41 +16,48 @@ export default (fred, fredConfig) => {
                 auto_focus: false,
                 branding: false,
                 relative_urls: false,
-                file_picker_callback: (callback, value, meta) => {
-                    const finder = new fred.Finder((file, fm) => {
-                        const url = file.url;
-                        const info = file.name + ' (' + fm.formatSize(file.size) + ')';
+                ...config
+            };
 
-                        if (meta.filetype == 'image') {
-                            callback(url, {alt: info});
-                            return;
-                        }
+            finalConfig.target = el;
+            finalConfig.file_picker_callback = (callback, value, meta) => {
+                const finder = new fred.Finder((file, fm) => {
+                    const url = file.url;
+                    const info = file.name + ' (' + fm.formatSize(file.size) + ')';
 
-                        callback(url);
-                    }, 'fred.fe.browse_files', fred.Finder.getFinderOptionsFromElement(el, (meta.filetype === 'image')));
+                    if (meta.filetype == 'image') {
+                        callback(url, {alt: info});
+                        return;
+                    }
 
-                    finder.render();
+                    callback(url);
+                }, 'fred.fe.browse_files', fred.Finder.getFinderOptionsFromElement(el, (meta.filetype === 'image')));
 
-                    return false;
-                },
-                setup: editor => {
-                    el.rte = editor;
+                finder.render();
 
-                    editor.on('change', e => {
-                        onChange(editor.getContent());
-                    });
+                return false;
+            };
+            
+            finalConfig.setup = editor => {
+                el.rte = editor;
 
-                    editor.on('focus', e => {
-                        onFocus();
-                    });
+                editor.on('change', e => {
+                    onChange(editor.getContent());
+                });
 
-                    editor.on('blur', e => {
-                        onBlur()
-                    });
+                editor.on('focus', e => {
+                    onFocus();
+                });
 
-                    onInit();
-                }
-            });
+                editor.on('blur', e => {
+                    onBlur()
+                });
+
+                onInit();
+            };
+            
+            
+            tinymce.init(finalConfig);
         }, 1);
     }
 }
