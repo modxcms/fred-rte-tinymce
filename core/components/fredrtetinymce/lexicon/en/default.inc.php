@@ -2,6 +2,7 @@
 
 $_lang['fredrtetinymce.page'] = 'Page';
 $_lang['fredrtetinymce.block_on'] = 'Block on \'[[+page]]\'';
+$_lang['fredrtetinymce.anchor'] = 'Anchor Tag';
 $_lang['fredrtetinymce.url'] = 'URL';
 $_lang['fredrtetinymce.email'] = 'Email';
 $_lang['fredrtetinymce.to'] = 'To';

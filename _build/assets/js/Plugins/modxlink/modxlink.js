@@ -47,7 +47,7 @@ export default (fred, fredConfig) => {
                                 },
                                 {
                                     type: 'textbox',
-                                    label: fredConfig.lng('fredrtetinymce.block_on', {page: fredConfig.pageSettings.pagetitle}),
+                                    label: fredConfig.lng('fredrtetinymce.anchor'),
                                     id: 'page_anchor',
                                     value: data.page.anchor,
                                     onkeyup() {
