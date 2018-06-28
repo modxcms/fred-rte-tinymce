@@ -19,3 +19,4 @@ $_lang['fredrtetinymce.link_title'] = 'Link Title';
 $_lang['fredrtetinymce.classes'] = 'Classes';
 $_lang['fredrtetinymce.new_window'] = 'New Window';
 $_lang['fredrtetinymce.page_title'] = 'Page Title';
+$_lang['fredrtetinymce.tooltip'] = 'Insert/Edit Link';
