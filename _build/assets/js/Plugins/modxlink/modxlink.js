@@ -6,6 +6,7 @@ export default (fred, fredConfig) => {
     return (editor, url) => {
         editor.addButton('modxlink', {
             icon: 'link',
+            tooltip: fredConfig.lng('fredrtetinymce.tooltip'),
             onclick: function () {
                 const dataHelper = new Data(editor);
                 let activeTab = 0;
