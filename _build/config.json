@@ -1,19 +1,27 @@
 {
-    "name": "FredRTETinyMCE",
-    "lowCaseName": "fredrtetinymce",
-    "description": "",
-    "author": "",
-    "version": "0.1.0",
-    "package": {
-        "menus": [],
-        "elements": {
-            "plugins": [
-                {
-                    "name": "FredRTETinyMCE",
-                    "file": "FredRTETinyMCE.php",
-                    "events": ["FredBeforeRender"]
-                }
-            ]
+  "name": "FredRTETinyMCE",
+  "lowCaseName": "fredrtetinymce",
+  "description": "",
+  "author": "John Peca",
+  "version": "1.0.0-beta",
+  "package": {
+    "menus": [],
+    "elements": {
+      "plugins": [
+        {
+          "name": "FredRTETinyMCE",
+          "file": "FredRTETinyMCE.php",
+          "events": [
+            "FredBeforeRender"
+          ]
         }
+      ]
     }
+  },
+  "dependencies": [
+    {
+      "name": "fred",
+      "version": ">=1.0.0"
+    }
+  ]
 }
