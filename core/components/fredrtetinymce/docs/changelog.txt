@@ -1,5 +1,9 @@
 Changelog for FredRTETinyMCE.
 
++1.0.1 beta (09.07.2018)
++==============
++- Add ru lexicon
+
 FredRTETinyMCE 1.0.0-beta
 ==============
 - Initial release.
