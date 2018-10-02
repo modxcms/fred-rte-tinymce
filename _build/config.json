@@ -23,5 +23,12 @@
       "name": "fred",
       "version": ">=1.0.0"
     }
-  ]
+  ],
+  "build": {
+    "resolver": {
+      "after": [
+        "resolve.system_setting.php"
+      ]
+    }
+  }
 }
