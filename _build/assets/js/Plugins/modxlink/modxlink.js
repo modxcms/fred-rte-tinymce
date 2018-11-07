@@ -159,7 +159,6 @@ export default (fred, fredConfig) => {
                         },{
                             text: linkState ? fredConfig.lng('fredrtetinymce.remove_link') : fredConfig.lng('fredrtetinymce.cancel'), 
                             onclick () {
-                                console.log();
                                 if (linkState) {
                                     const el = editor.dom.getParent(editor.selection.getStart(), 'a[href]');
                                     editor.selection.select(el);
@@ -228,7 +227,12 @@ export default (fred, fredConfig) => {
                     removeItemButton: true
                 });
                 templateInputChoices.ajax(callback => {
-                    fred.libs.fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&current=${data.page.page}`)
+                    fred.libs.fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&current=${data.page.page}`, {
+                        credentials: 'same-origin',
+                        headers: {
+                            'X-Fred-Token': fredConfig.jwt
+                        }
+                    })
                         .then(response => {
                             return response.json()
                         })
@@ -275,7 +279,12 @@ export default (fred, fredConfig) => {
                     if (query in lookupCache) {
                         populateOptions(lookupCache[query]);
                     } else {
-                        fred.libs.fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&query=${query}`)
+                        fred.libs.fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&query=${query}`, {
+                            credentials: 'same-origin',
+                            headers: {
+                                'X-Fred-Token': fredConfig.jwt
+                            }
+                        })
                             .then(response => {
                                 return response.json()
                             })
