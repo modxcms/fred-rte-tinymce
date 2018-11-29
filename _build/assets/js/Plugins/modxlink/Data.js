@@ -3,8 +3,11 @@ export default class Data {
         this.editor = editor;
         this.element = editor.dom.getParent(editor.selection.getStart(), 'a[href]');
         
+        const textarea = document.createElement('textarea');
+        textarea.innerHTML = editor.selection.getContent();
+        
         this.initialData = {
-            link_text: editor.selection.getContent(),
+            link_text: textarea.value,
             link_title: '',
             classes: '',
             new_window: false,
