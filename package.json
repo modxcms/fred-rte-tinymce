@@ -34,7 +34,8 @@
     "merge-stream": "^1.0.1",
     "object-assign": "^4.0.1",
     "webpack": "^1.12.11",
-    "webpack-node-externals": "^0.4.1"
+    "webpack-node-externals": "^0.4.1",
+    "randomatic": ">=3.0.0"
   },
   "library": {
     "name": "FredRTETinyMCE",
