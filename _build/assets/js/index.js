@@ -44,6 +44,14 @@ export default (fred, fredConfig) => {
                 editor.on('change', e => {
                     onChange(editor.getContent());
                 });
+                
+                editor.on('undo', e => {
+                    onChange(editor.getContent());
+                });
+                
+                editor.on('redo', e => {
+                    onChange(editor.getContent());
+                });
 
                 editor.on('focus', e => {
                     onFocus();
