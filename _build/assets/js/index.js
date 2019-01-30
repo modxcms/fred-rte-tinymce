@@ -16,6 +16,7 @@ export default (fred, fredConfig) => {
                 auto_focus: false,
                 branding: false,
                 relative_urls: false,
+                image_dimensions: false,
                 ...config
             };
 
@@ -23,7 +24,7 @@ export default (fred, fredConfig) => {
             finalConfig.file_picker_callback = (callback, value, meta) => {
                 const finder = new fred.Finder((file, fm) => {
                     const url = file.url;
-                    const info = file.name + ' (' + fm.formatSize(file.size) + ')';
+                    const info = file.name;
 
                     if (meta.filetype == 'image') {
                         callback(url, {alt: info});
