@@ -10,9 +10,9 @@ export default (fred, pluginTools) => {
             const finalConfig = {
                 theme: 'inlite',
                 inline: true,
-                plugins: 'modxlink image imagetools media lists',
-                insert_toolbar: "image media quicktable modxlink",
-                selection_toolbar: 'bold italic underline | alignleft aligncenter alignright | bullist numlist | modxlink h2 h3 h4 blockquote',
+                plugins: 'modxlink image imagetools media lists table',
+                insert_toolbar: "image media table modxlink",
+                selection_toolbar: 'bold italic underline | alignleft aligncenter alignright | bullist numlist table | modxlink h2 h3 h4 blockquote',
                 image_advtab: true,
                 imagetools_toolbar: 'alignleft aligncenter alignright | rotateleft rotateright | flipv fliph | editimage imageoptions',
                 auto_focus: false,
