@@ -35,7 +35,8 @@
     "object-assign": "^4.0.1",
     "webpack": "^1.12.11",
     "webpack-node-externals": "^0.4.1",
-    "randomatic": ">=3.0.0"
+    "randomatic": ">=3.0.0",
+    "natives": "^1.1.6"
   },
   "library": {
     "name": "FredRTETinyMCE",
