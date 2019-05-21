@@ -1,8 +1,10 @@
 import registerPlugins from './Plugins/RegisterPlugins';
 
-export default (fred, fredConfig) => {
-    registerPlugins(fred, fredConfig);
-    
+export default (fred, pluginTools) => {
+    const { Finder } = pluginTools;
+
+    registerPlugins(fred, pluginTools);
+
     return (el, config, onInit, onChange, onFocus, onBlur) => {
         setTimeout(() => {
             const finalConfig = {
@@ -22,7 +24,7 @@ export default (fred, fredConfig) => {
 
             finalConfig.target = el;
             finalConfig.file_picker_callback = (callback, value, meta) => {
-                const finder = new fred.Finder((file, fm) => {
+                const finder = new Finder((file, fm) => {
                     const url = file.url;
                     const info = file.name;
 
@@ -32,24 +34,24 @@ export default (fred, fredConfig) => {
                     }
 
                     callback(url);
-                }, 'fred.fe.browse_files', fred.Finder.getFinderOptionsFromElement(el, (meta.filetype === 'image')));
+                }, 'fred.fe.browse_files', Finder.getFinderOptionsFromElement(el, (meta.filetype === 'image')));
 
                 finder.render();
 
                 return false;
             };
-            
+
             finalConfig.setup = editor => {
                 el.rte = editor;
 
                 editor.on('change', e => {
                     onChange(editor.getContent());
                 });
-                
+
                 editor.on('undo', e => {
                     onChange(editor.getContent());
                 });
-                
+
                 editor.on('redo', e => {
                     onChange(editor.getContent());
                 });
@@ -64,8 +66,8 @@ export default (fred, fredConfig) => {
 
                 onInit();
             };
-            
-            
+
+
             tinymce.init(finalConfig);
         }, 1);
     }

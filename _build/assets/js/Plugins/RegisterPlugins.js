@@ -1,5 +1,5 @@
 import modxlink from './modxlink/modxlink';
 
-export default (fred, fredConfig) => {
-    tinymce.PluginManager.add('modxlink', modxlink(fred, fredConfig));
+export default (fred, pluginTools) => {
+    tinymce.PluginManager.add('modxlink', modxlink(fred, pluginTools));
 };

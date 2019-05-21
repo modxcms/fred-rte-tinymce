@@ -2,7 +2,9 @@ import Data from './Data';
 import Link from './Link';
 import { unlinkSelection } from './Unlink';
 
-export default (fred, fredConfig) => {
+export default (fred, pluginTools) => {
+    const { fredConfig, fetch, Choices } = pluginTools;
+
     return (editor, url) => {
         editor.addButton('modxlink', {
             icon: 'link',
@@ -30,7 +32,7 @@ export default (fred, fredConfig) => {
                         activeTab = 4;
                         break;
                 }
-                
+
                 const tabPanel = new tinymce.ui.TabPanel({
                     type: 'tabpanel',
                     classes: 'fred--modxlink-panel',
@@ -141,7 +143,7 @@ export default (fred, fredConfig) => {
                         data.link_text = this.value();
                     }
                 });
-                
+
                 const linkState = this.state.data.active;
 
                 // Open window
@@ -151,13 +153,13 @@ export default (fred, fredConfig) => {
                     data,
                     buttons: [
                         {
-                            text: fredConfig.lng('fredrtetinymce.ok'), 
-                            subtype: 'primary', 
+                            text: fredConfig.lng('fredrtetinymce.ok'),
+                            subtype: 'primary',
                             onclick () {
                                 win.find('form')[0].submit();
                             }
                         },{
-                            text: linkState ? fredConfig.lng('fredrtetinymce.remove_link') : fredConfig.lng('fredrtetinymce.cancel'), 
+                            text: linkState ? fredConfig.lng('fredrtetinymce.remove_link') : fredConfig.lng('fredrtetinymce.cancel'),
                             onclick () {
                                 if (linkState) {
                                     const el = editor.dom.getParent(editor.selection.getStart(), 'a[href]');
@@ -223,11 +225,11 @@ export default (fred, fredConfig) => {
                 const lookupCache = {};
                 let initData = [];
 
-                const templateInputChoices = new fred.libs.Choices(input, {
+                const templateInputChoices = new Choices(input, {
                     removeItemButton: true
                 });
                 templateInputChoices.ajax(callback => {
-                    fred.libs.fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&current=${data.page.page}`, {
+                    fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&current=${data.page.page}`, {
                         credentials: 'same-origin',
                         headers: {
                             'X-Fred-Token': fredConfig.jwt
@@ -239,15 +241,15 @@ export default (fred, fredConfig) => {
                         .then(json => {
                             initData = json.data.resources;
                             callback(json.data.resources, 'value', 'pagetitle');
-                            
+
                             if (json.data.current) {
                                 templateInputChoices.setChoices([json.data.current], 'value', 'pagetitle', false);
                                 templateInputChoices.setValueByChoice(data.page.page);
-                                
+
                                 const pageAnchorEl = document.getElementById('page_anchor-l');
                                 if (pageAnchorEl) {
                                     pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: json.data.current.pagetitle});
-                                }       
+                                }
                             }
                         })
                         .catch(error => {
@@ -279,7 +281,7 @@ export default (fred, fredConfig) => {
                     if (query in lookupCache) {
                         populateOptions(lookupCache[query]);
                     } else {
-                        fred.libs.fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&query=${query}`, {
+                        fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&query=${query}`, {
                             credentials: 'same-origin',
                             headers: {
                                 'X-Fred-Token': fredConfig.jwt
@@ -307,7 +309,7 @@ export default (fred, fredConfig) => {
                     templateInputChoices.setChoices(initData, 'value', 'pagetitle', true);
                     data.page.page = event.detail.choice.value;
                     data.page.url = event.detail.choice.customProperties.url;
-                    
+
                     if (!data.link_text) {
                         data.link_text = event.detail.choice.label;
                         linkText.value(event.detail.choice.label);
@@ -318,10 +320,10 @@ export default (fred, fredConfig) => {
                         pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: event.detail.choice.label});
                     }
                 });
-                
+
                 templateInputChoices.passedElement.addEventListener('removeItem', event => {
                     if (templateInputChoices.getValue()) return;
-                    
+
                     data.page.page = '';
                     data.page.url = '';
                     const pageAnchorEl = document.getElementById('page_anchor-l');
