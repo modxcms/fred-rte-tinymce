@@ -14,46 +14,27 @@ import webpackConfig from "./webpack.config.js";
 import merge from "merge-stream";
 import concat from "gulp-concat";
 
-import sass from 'gulp-ruby-sass';
-
 const $ = gulpLoadPlugins();
 const libFolder = './_build/assets/lib';
 const sources = './_build/assets/js/**/*.js';
 
-gulp.task('default', ['build-web']);
+function onBuild(done, taskName) {
+    return (err, stats) => {
+        if (err)
+            throw new gutil.PluginError(taskName, err);
+        $.util.log(`${taskName}`, stats.toString({colors: true}));
+        done && done();
+    }
+}
 
-// Build for web
-gulp.task('build-web', ['webpack:build-web'/*, 'css'*/]);
-
-// Build for web + watch
-gulp.task('build-web-dev', ['webpack:build-web-dev'/*, 'css'*/], () => {
-    gulp.watch([sources], ['webpack:build-web-dev']);
-    //gulp.watch(['./_build/assets/sass/**/*.scss'], ['css']);
-});
-
-// gulp.task('css', function() {
-//     var sassStream = sass('./_build/assets/sass/fred.scss', {
-//         style: 'compressed',
-//         loadPath: [
-//             './_build/assets/sass'
-//         ]
-//     });
-//    
-//     var cssStream = gulp.src([
-//     ]);
-//    
-//     return merge(sassStream,cssStream)
-//         .pipe(concat('fredfaeditor.css'))
-//         .pipe(gulp.dest('./assets/components/fredfaeditor/web'));
-// });
-
-// Run Babel only
-gulp.task('build-babel', ['clean'], () =>
-    gulp.src([sources])
-        .pipe($.babel())
-        // Output files
-        .pipe(gulp.dest(libFolder))
-);
+// Sets environment variable
+function setEnv(buildEnv) {
+    $.env({
+        vars: {
+            BUILD_ENV: buildEnv
+        }
+    });
+}
 
 // Clean folder
 gulp.task('clean', () =>
@@ -82,20 +63,21 @@ gulp.task('webpack:build-web-dev', done => {
     webDevCompiler.run(onBuild(done, taskName));
 });
 
-function onBuild(done, taskName) {
-    return (err, stats) => {
-        if (err)
-            throw new gutil.PluginError(taskName, err);
-        $.util.log(`${taskName}`, stats.toString({colors: true}));
-        done && done();
-    }
-}
+// Run Babel only
+gulp.task('build-babel', gulp.series('clean'), () =>
+    gulp.src([sources])
+        .pipe($.babel())
+        // Output files
+        .pipe(gulp.dest(libFolder))
+);
 
-// Sets environment variable
-function setEnv(buildEnv) {
-    $.env({
-        vars: {
-            BUILD_ENV: buildEnv
-        }
-    });
-}
+// Build for web + watch
+gulp.task('build-web-dev', () => {
+    gulp.watch([sources], gulp.series('webpack:build-web-dev'));
+    //gulp.watch(['./_build/assets/sass/**/*.scss'], ['css']);
+}); 
+
+// Build for web
+gulp.task('build-web', gulp.series('webpack:build-web'/*, 'css'*/));
+
+gulp.task('default', gulp.series('build-web'));
