@@ -28,13 +28,13 @@
     "gulp-babel": "^6.1.1",
     "gulp-concat": "^2.6.1",
     "gulp-env": "^0.2.0",
-    "gulp-load-plugins": "^1.2.0",
+    "gulp-load-plugins": "^1.6.0",
     "gulp-util": "^3.0.6",
     "merge-stream": "^1.0.1",
     "object-assign": "^4.0.1",
+    "randomatic": ">=3.0.0",
     "webpack": "^1.12.11",
-    "webpack-node-externals": "^0.4.1",
-    "randomatic": ">=3.0.0"
+    "webpack-node-externals": "^0.4.1"
   },
   "library": {
     "name": "FredRTETinyMCE",
