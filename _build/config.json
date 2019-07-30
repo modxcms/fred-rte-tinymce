@@ -3,7 +3,7 @@
   "lowCaseName": "fredrtetinymce",
   "description": "",
   "author": "John Peca",
-  "version": "1.0.0-beta4",
+  "version": "1.0.0-rc",
   "package": {
     "menus": [],
     "elements": {
