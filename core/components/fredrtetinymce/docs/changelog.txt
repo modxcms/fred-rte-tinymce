@@ -1,14 +1,5 @@
 Changelog for FredRTETinyMCE.
 
-FredRTETinyMCE 1.0.0-beta3
+1.0.0
 ==============
-- Sign XHR requests
-
-FredRTETinyMCE 1.0.0-beta2
-==============
-- Add resolver to adjust IconEditor in system settings
-- Add ru translations
-
-FredRTETinyMCE 1.0.0-beta
-==============
-- Initial release.
+Initial release.
