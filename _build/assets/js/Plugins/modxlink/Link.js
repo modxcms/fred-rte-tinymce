@@ -20,7 +20,7 @@ export default class Link {
             }
         }
 
-        this.element.innerText = linkText;
+        this.element.innerHTML = linkText;
         this.editor.selection.select(this.element);
     }
     
@@ -65,13 +65,13 @@ export default class Link {
             attributes.href = data.page.url;
         }
         
-        return this.handleLink(this.editor.dom.encode(data.link_text), attributes);
+        return this.handleLink(data.link_text, attributes);
     }
     
     saveUrl(data) {
         if (!data.url.url) return;
 
-        return this.handleLink(this.editor.dom.encode(data.link_text), {
+        return this.handleLink(data.link_text, {
             ...(Link.getGeneralAttributes(data, 'url')),
             href: data.url.url
         });
@@ -95,7 +95,7 @@ export default class Link {
             href += '?' + mailAttrs.join('&');
         }
         
-        return this.handleLink(this.editor.dom.encode(data.link_text), {
+        return this.handleLink(data.link_text, {
             ...(Link.getGeneralAttributes(data, 'email')),
             href
         });
@@ -104,7 +104,7 @@ export default class Link {
     savePhone(data) {
         if (!data.phone.phone) return;
         
-        return this.handleLink(this.editor.dom.encode(data.link_text), {
+        return this.handleLink(data.link_text, {
             ...(Link.getGeneralAttributes(data, 'phone')),
             href: `tel:${data.phone.phone}`
         });
@@ -113,7 +113,7 @@ export default class Link {
     saveFile(data) {
         if (!data.file.file) return;
         
-        return this.handleLink(this.editor.dom.encode(data.link_text), {
+        return this.handleLink(data.link_text, {
             ...(Link.getGeneralAttributes(data, 'file')),
             href: data.file.file
         });
