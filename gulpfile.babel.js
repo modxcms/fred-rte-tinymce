@@ -73,7 +73,7 @@ gulp.task('build-babel', gulp.series('clean'), () =>
 
 // Build for web + watch
 gulp.task('build-web-dev', () => {
-    gulp.watch([sources], gulp.series('webpack:build-web-dev'));
+    gulp.watch([sources], {usePolling: true}, gulp.series('webpack:build-web-dev'));
     //gulp.watch(['./_build/assets/sass/**/*.scss'], ['css']);
 }); 
 
