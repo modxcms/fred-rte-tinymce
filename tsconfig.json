@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./_build/assets/js",
+      "outDir": "./assets/components/fredrtetinymce/web",
+      "noImplicitAny": false,
+      "moduleResolution": "node",
+      "module": "es6",
+      "target": "es5",
+      "allowJs": true,
+      "allowSyntheticDefaultImports": true
+    },
+    "include": [
+      "_build/assets/js/**/*"
+    ]
+  }

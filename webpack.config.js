@@ -1,80 +1,51 @@
-var webpack = require('webpack');
-var path = require('path');
-var assign = require('object-assign');
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-module.exports = function getConfig(options) {
+module.exports = (env, options) => {
+    const isProd = options.mode === 'production';
 
-    var options = options || {};
-
-    var isProd = (options.BUILD_ENV || process.env.BUILD_ENV) === 'PROD';
-
-    // get library details from JSON config
-    var libraryDesc = require('./package.json').library;
-    var libraryName = libraryDesc.name;
-
-    // determine output file name
-    var outputName = buildLibraryOutputName(libraryDesc, isProd);
-
-    // get base config
-    var config;
-
-    // for the web
-    config = assign(getBaseConfig(isProd), {
-        output: {
-            path: path.join(__dirname, './assets/components/fredrtetinymce/web'),
-            filename: outputName,
-            library: libraryName,
-            libraryTarget: 'umd',
-            umdNamedDefine: true
-        }
-    });
-
-    config.plugins.push(new CleanWebpackPlugin(['dist']));
-
-    return config;
-};
-
-/**
- * Build base config
- * @param  {Boolean} isProd [description]
- * @return {[type]}         [description]
- */
-function getBaseConfig(isProd) {
-
-    // get library details from JSON config
-    var libraryDesc = require('./package.json').library;
-    var libraryEntryPoint = path.join('./_build/assets/js', libraryDesc.entry);
-
-    // generate webpack base config
     return {
-        entry: path.join(__dirname, libraryEntryPoint),
+        mode: options.mode,
+        devtool: isProd ? false : 'source-map',
+
+        entry: [
+            '@babel/polyfill',
+            './_build/assets/js/index.js'
+        ],
+
         output: {
-            // ommitted - will be filled according to target env
+            path: path.resolve(__dirname, './assets/components/fredrtetinymce/web'),
+            library: 'FredRTETinyMCE',
+            libraryTarget: 'umd',
+            libraryExport: 'default',
+            filename: 'fredrtetinymce.min.js'
         },
+
         module: {
-            loaders: [
-                {test: /\.js$/, exclude: /(node_modules|bower_components)/, loader: "babel-loader"},
+            rules: [
+                {
+                    test: /\.ts$/,
+                    use: 'ts-loader',
+                    exclude: /node_modules/,
+                },
+                {
+                    test: /\.js$/,
+                    exclude: /(node_modules)/,
+                    use: {
+                        loader: 'babel-loader'
+                    }
+                }
             ]
         },
+
         resolve: {
-            root: path.resolve('./src'),
-            extensions: ['', '.js']
+            extensions: [ '.ts', '.js' ],
         },
-        devtool: isProd ? null : '#eval-source-map',
-        debug: !isProd,
-        plugins: isProd ? [
-            new webpack.DefinePlugin({'process.env': {'NODE_ENV': '"production"'}}),
-            new UglifyJsPlugin({minimize: true})
-            // Prod plugins here
-        ] : [
-            new webpack.DefinePlugin({'process.env': {'NODE_ENV': '"development"'}})
-            // Dev plugins here
+
+        plugins: [
+            isProd ? new CleanWebpackPlugin({
+                cleanOnceBeforeBuildPatterns: ['fredrtetinymce.*']
+            }) : () => {}
         ]
     };
-}
-
-function buildLibraryOutputName(libraryDesc, isProd) {
-    return libraryDesc["dist-web"] || [libraryDesc.name, 'web', (isProd ? 'min.js' : 'js')].join('.');
-}
+};
