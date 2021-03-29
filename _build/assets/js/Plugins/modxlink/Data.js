@@ -86,7 +86,7 @@ export default class Data {
         data.global.link_title = this.element.getAttribute('title');
         data.global.classes = this.element.getAttribute('class');
         data.global.new_window = (this.element.getAttribute('target') === '_blank');
-        data.global.link_text = this.element.innerText;
+        data.global.link_text = this.element.innerHTML;
 
         const linkType = this.element.dataset.fredLinkType;
         let url = this.element.getAttribute('href') || '';
