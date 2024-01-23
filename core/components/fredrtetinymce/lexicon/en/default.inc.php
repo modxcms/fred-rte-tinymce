@@ -20,3 +20,4 @@ $_lang['fredrtetinymce.classes'] = 'Classes';
 $_lang['fredrtetinymce.new_window'] = 'New Window';
 $_lang['fredrtetinymce.page_title'] = 'Page Title';
 $_lang['fredrtetinymce.tooltip'] = 'Insert/Edit Link';
+$_lang['fredrtetinymce.parameters'] = 'Extra Params';

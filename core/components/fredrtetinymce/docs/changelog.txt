@@ -1,11 +1,19 @@
 Changelog for FredRTETinyMCE.
 
+1.1.1-pl
+==============
+
+Update the modxlink plugin:
+- Add support for get parameters in modx links
+- Fix class list selection
+Update package dependencies
+
 1.1.0-pl
 ==============
 
 Update the modxlink plugin:
 - Now works with images
-- Now supports link_class_list 
+- Now supports link_class_list
 - Now works in contextmenu and insert_toolbar
 Update package dependencies
 

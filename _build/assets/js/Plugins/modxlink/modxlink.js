@@ -211,9 +211,9 @@ export default (fred, pluginTools) => {
                             }
                         }
                     ),
-                    onchange() {
+                    onselect() {
                         data.classes = this.value();
-                    }
+                    },
                 });
             }else{
                 linkOptions.push({
