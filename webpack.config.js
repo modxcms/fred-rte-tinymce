@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = (env, options) => {
@@ -10,6 +11,7 @@ module.exports = (env, options) => {
 
         entry: [
             '@babel/polyfill',
+            './_build/assets/sass/fred-rte-tinymce.scss',
             './_build/assets/js/index.js'
         ],
 
@@ -34,6 +36,30 @@ module.exports = (env, options) => {
                     use: {
                         loader: 'babel-loader'
                     }
+                },
+                {
+                    test: /\.(sa|sc|c)ss$/,
+                    use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader
+                        },
+                        {
+                            loader: "css-loader",
+                            options: {
+                                url: false,
+                                sourceMap: true
+                            }
+                        },
+                        {
+                            loader: "postcss-loader"
+                        },
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                implementation: require("sass")
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -45,7 +71,10 @@ module.exports = (env, options) => {
         plugins: [
             isProd ? new CleanWebpackPlugin({
                 cleanOnceBeforeBuildPatterns: ['fredrtetinymce.*']
-            }) : () => {}
+            }) : () => {},
+            new MiniCssExtractPlugin({
+                filename: "fredrtetinymce.css"
+            })
         ]
     };
 };

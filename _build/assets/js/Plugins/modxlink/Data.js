@@ -2,15 +2,15 @@ export default class Data {
     constructor(editor) {
         this.editor = editor;
         this.element = editor.dom.getParent(editor.selection.getStart(), 'a[href]');
-        
         const textarea = document.createElement('textarea');
-        textarea.innerHTML = editor.selection.getContent();
+        textarea.innerHTML = this.editor.selection.getContent();
         
         this.initialData = {
-            link_text: textarea.value,
+            link_text: this.editor.selection.getContent(),
             link_title: '',
             classes: '',
             new_window: false,
+            type: '',
             page: {
                 page: '',
                 url: '',
@@ -33,7 +33,7 @@ export default class Data {
             }
         };
         
-        this.activeTab = 'page';
+        this.activeTab = 'url';
         this.data = this.parseData();
     }
     
@@ -62,10 +62,11 @@ export default class Data {
         
         const data = {
             global: {
-                link_text: '',
+                link_text: this.editor.selection.getContent(),
                 link_title: '',
                 classes: '',
-                new_window: false
+                new_window: false,
+                type: ''
             },
             page: {
                 ...(this.initialData.page || {})

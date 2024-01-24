@@ -122,8 +122,8 @@ export default class Link {
         });
     }
     
-    save(type, data) {
-        switch (type) {
+    save(data) {
+        switch (data.type) {
             case 'page':
                 this.savePage(data);
                 break;

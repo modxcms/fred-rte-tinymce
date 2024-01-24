@@ -12,6 +12,7 @@ $_lang['fredrtetinymce.phone'] = 'Phone';
 $_lang['fredrtetinymce.file'] = 'File';
 $_lang['fredrtetinymce.link_text'] = 'Link Text';
 $_lang['fredrtetinymce.link_to'] = 'Link to';
+$_lang['fredrtetinymce.link'] = 'Link';
 $_lang['fredrtetinymce.ok'] = 'Ok';
 $_lang['fredrtetinymce.cancel'] = 'Cancel';
 $_lang['fredrtetinymce.remove_link'] = 'Remove Link';
