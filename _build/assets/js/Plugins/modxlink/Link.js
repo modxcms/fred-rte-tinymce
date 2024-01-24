@@ -51,18 +51,21 @@ export default class Link {
     }
     
     savePage(data) {
-        if (!data.page.page && !data.page.anchor) return;
+        if (!data.page.page && !data.page.anchor && !data.page.parameters) return;
 
         const attributes = {
             ...(Link.getGeneralAttributes(data, 'page')),
             'data-fred-link-page': data.page.page
         };
+        attributes.href = data.page.url;
 
         if (data.page.anchor) {
             attributes['data-fred-link-anchor'] = data.page.anchor;
             attributes.href = `${data.page.url}#${data.page.anchor}`;
-        } else {
-            attributes.href = data.page.url;
+        }
+        if (data.page.parameters) {
+            attributes['data-fred-link-parameters'] = data.page.parameters;
+            attributes.href = `${attributes.href}?${data.page.parameters}`;
         }
         
         return this.handleLink(data.link_text, attributes);

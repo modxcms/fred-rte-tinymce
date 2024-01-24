@@ -14,7 +14,8 @@ export default class Data {
             page: {
                 page: '',
                 url: '',
-                anchor: ''
+                anchor: '',
+                parameters: ''
             },
             url: {
                 url: ''
@@ -94,9 +95,11 @@ export default class Data {
         if (linkType === 'page') {
             data.page.page = this.element.getAttribute('data-fred-link-page');
             data.page.anchor = this.element.getAttribute('data-fred-link-anchor');
-            
-            if (data.page.page || data.page.anchor) {
+            data.page.parameters = this.element.getAttribute('data-fred-link-parameters');
+
+            if (data.page.page || data.page.anchor || data.page.parameters) {
                 data.page.url = url.replace(('#' + data.page.anchor), '');
+                data.page.url = data.page.url.replace(('?' + data.page.parameters), '');
     
                 return {
                     tab: 'page',

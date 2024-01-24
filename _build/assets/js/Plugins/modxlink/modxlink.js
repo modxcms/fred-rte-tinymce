@@ -55,6 +55,16 @@ export default (fred, pluginTools) => {
                                 onkeyup() {
                                     data.page.anchor = this.value();
                                 }
+                            },
+                            {
+                                type: 'textbox',
+                                label: fredConfig.lng('fredrtetinymce.parameters'),
+                                id: 'page_parameters',
+                                value: data.page.parameters,
+                                size: formsize,
+                                onkeyup() {
+                                    data.page.parameters = this.value();
+                                }
                             }
                         ]
                     },
@@ -201,9 +211,9 @@ export default (fred, pluginTools) => {
                             }
                         }
                     ),
-                    onchange() {
+                    onselect() {
                         data.classes = this.value();
-                    }
+                    },
                 });
             }else{
                 linkOptions.push({
