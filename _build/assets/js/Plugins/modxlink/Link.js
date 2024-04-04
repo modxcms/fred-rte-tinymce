@@ -51,47 +51,47 @@ export default class Link {
     }
     
     savePage(data) {
-        if (!data.page.page && !data.page.anchor && !data.page.parameters) return;
+        if (!data.page_page && !data.page_anchor && !data.page_parameters) return;
 
         const attributes = {
             ...(Link.getGeneralAttributes(data, 'page')),
-            'data-fred-link-page': data.page.page
+            'data-fred-link-page': data.page_page
         };
-        attributes.href = data.page.url;
+        attributes.href = data.page_url;
 
-        if (data.page.anchor) {
-            attributes['data-fred-link-anchor'] = data.page.anchor;
-            attributes.href = `${data.page.url}#${data.page.anchor}`;
+        if (data.page_anchor) {
+            attributes['data-fred-link-anchor'] = data.page_anchor;
+            attributes.href = `${data.page_url}#${data.page_anchor}`;
         }
-        if (data.page.parameters) {
-            attributes['data-fred-link-parameters'] = data.page.parameters;
-            attributes.href = `${attributes.href}?${data.page.parameters}`;
+        if (data.page_parameters) {
+            attributes['data-fred-link-parameters'] = data.page_parameters;
+            attributes.href = `${attributes.href}?${data.page_parameters}`;
         }
         
         return this.handleLink(data.link_text, attributes);
     }
     
     saveUrl(data) {
-        if (!data.url.url) return;
+        if (!data.url_url) return;
 
         return this.handleLink(data.link_text, {
             ...(Link.getGeneralAttributes(data, 'url')),
-            href: data.url.url
+            href: data.url_url
         });
     }
     
     saveEmail(data) {
-        if (!data.email.to) return;
+        if (!data.email_to) return;
 
-        let href = `mailto:${data.email.to}`;
+        let href = `mailto:${data.email_to}`;
         const mailAttrs = [];
 
-        if (data.email.subject) {
-            mailAttrs.push('subject=' + encodeURI(data.email.subject));
+        if (data.email_subject) {
+            mailAttrs.push('subject=' + encodeURI(data.email_subject));
         }
 
-        if (data.email.body) {
-            mailAttrs.push('body=' + encodeURI(data.email.body));
+        if (data.email_body) {
+            mailAttrs.push('body=' + encodeURI(data.email_body));
         }
 
         if (mailAttrs.length > 0) {
@@ -105,25 +105,25 @@ export default class Link {
     }
     
     savePhone(data) {
-        if (!data.phone.phone) return;
+        if (!data.phone_phone) return;
         
         return this.handleLink(data.link_text, {
             ...(Link.getGeneralAttributes(data, 'phone')),
-            href: `tel:${data.phone.phone}`
+            href: `tel:${data.phone_phone}`
         });
     }
     
     saveFile(data) {
-        if (!data.file.file) return;
+        if (!data.file_file) return;
         
         return this.handleLink(data.link_text, {
             ...(Link.getGeneralAttributes(data, 'file')),
-            href: data.file.file
+            href: data.file_file.value
         });
     }
     
-    save(data) {
-        switch (data.type) {
+    save(type, data) {
+        switch (type) {
             case 'page':
                 this.savePage(data);
                 break;
