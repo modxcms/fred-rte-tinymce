@@ -20,6 +20,32 @@ export default (fred, pluginTools) => {
                 'page_url': data.page_url,
             };
 
+            const buildListItems = (inputList, itemCallback, startItems) => {
+                function appendItems(values, output)
+                {
+                    output = output || [];
+
+                    tinymce.each(values, function (item) {
+                        var menuItem = {text: item.text || item.title};
+
+                        if (item.items) {
+                            menuItem.items = appendItems(item.items);
+                        } else {
+                            menuItem.value = item.value;
+
+                            if (itemCallback) {
+                                itemCallback(menuItem);
+                            }
+                        }
+
+                        output.push(menuItem);
+                    });
+
+                    return output;
+                }
+
+                return appendItems(inputList, startItems || []);
+            };
 
             const linkOptions = [{
                 type: 'input',
@@ -40,11 +66,11 @@ export default (fred, pluginTools) => {
                     type: 'listbox',
                     label: fredConfig.lng('fredrtetinymce.classes'),
                     size: formsize,
-                    values: buildListItems(
+                    items: buildListItems(
                         editor.options.get('link_class_list'),
-                        function(item) {
+                        function (item) {
                             if (item.value) {
-                                item.textStyle = function() {
+                                item.textStyle = function () {
                                     return editor.formatter.getCssText({inline: 'a', classes: [item.value]});
                                 };
                             }
@@ -168,35 +194,6 @@ export default (fred, pluginTools) => {
                     }
                 ]
             };
-
-
-            const buildListItems = (inputList, itemCallback, startItems) => {
-                function appendItems(values, output) {
-                    output = output || [];
-
-                    tinymce.each(values, function(item) {
-                        var menuItem = {text: item.text || item.title};
-
-                        if (item.menu) {
-                            menuItem.menu = appendItems(item.menu);
-                        } else {
-                            menuItem.value = item.value;
-
-                            if (itemCallback) {
-                                itemCallback(menuItem);
-                            }
-                        }
-
-                        output.push(menuItem);
-                    });
-
-                    return output;
-                }
-
-                return appendItems(inputList, startItems || []);
-            };
-
-
 
             let node = editor.selection.getNode()
             const linkState = (node.nodeName == "A");
