@@ -20,7 +20,7 @@ module.exports = (env, options) => {
             libraryTarget: 'umd',
             libraryExport: 'default',
             filename: 'fredrtetinymce.min.js',
-            clean: true,
+            clean: {keep: '.gitignore'}
         },
 
         module: {

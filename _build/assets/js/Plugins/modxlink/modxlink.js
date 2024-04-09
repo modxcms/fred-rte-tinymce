@@ -109,7 +109,7 @@ export default (fred, pluginTools) => {
                             {
                                 id: 'pagecontainer',
                                 type: 'htmlpanel',
-                                html: '<input type="hidden" name="page_page" /><label for="page_url">' + fredConfig.lng('fredrtetinymce.page_title') + '</label><select id="page_url"></select>'
+                                html: '<input type="hidden" name="page_page" /><label for="page_url" class="tox-label">' + fredConfig.lng('fredrtetinymce.page_title') + '</label><select id="page_url"></select>'
                             },
                             {
                                 type: 'input',

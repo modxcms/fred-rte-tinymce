@@ -2,6 +2,7 @@ import registerPlugins from './Plugins/RegisterPlugins';
 
 export default (fred, pluginTools) => {
     const { Finder } = pluginTools;
+    const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     registerPlugins(fred, pluginTools);
 
@@ -11,19 +12,59 @@ export default (fred, pluginTools) => {
                 const finalConfig = {
                     menubar: false,
                     inline: true,
-                    plugins: 'modxlink image imagetools media lists powerpaste',
-                    insert_toolbar: "image media quicktable modxlink",
-                    toolbar: 'bold italic underline | alignleft aligncenter alignright | bullist numlist | modxlink h2 h3 h4 blockquote',
+                    toolbar: false,
+                    plugins: 'quickbars modxlink image media lists powerpaste',
+                    quickbars_insert_toolbar: "image media quicktable modxlink",
+                    quickbars_selection_toolbar: 'bold italic underline | alignleft aligncenter alignright | bullist numlist | modxlink h2 h3 h4 blockquote',
                     image_advtab: true,
-                    imagetools_toolbar: 'alignleft aligncenter alignright | rotateleft rotateright | flipv fliph | editimage imageoptions',
-                    auto_focus: false,
                     branding: false,
                     relative_urls: false,
                     image_dimensions: false,
                     powerpaste_word_import: 'clean',
                     powerpaste_html_import: 'clean',
+                    a11y_advanced_options: true,
+                    skin: useDarkMode ? 'oxide-dark' : 'oxide',
                     ...config
                 };
+                // remove the theme if it is inlite
+                if (finalConfig.theme === 'inlite') {
+                    finalConfig.theme = null;
+                }
+                // clean up plugins list
+                const renamePlugins = {
+                    'contextmenu': ' ',
+                    'hr': ' ',
+                    'imagetools': ' ',
+                };
+                finalConfig.plugins = finalConfig.plugins.split(' ').map(plugin => {
+                    return renamePlugins[plugin] || plugin;
+                }).join(' ');
+                // check if it is missing quickbars plugin
+                if (!finalConfig.plugins.includes('quickbars')) {
+                    finalConfig.plugins += ' quickbars';
+                    if (finalConfig.insert_toolbar) {
+                        finalConfig.quickbars_insert_toolbar = finalConfig.insert_toolbar;
+                        delete finalConfig.insert_toolbar;
+                    }
+                    if (finalConfig.selection_toolbar) {
+                        finalConfig.quickbars_selection_toolbar = finalConfig.selection_toolbar;
+                        delete finalConfig.selection_toolbar;
+                    }
+                }
+                // rename toolbar options
+                const renameTools = {
+                    'styleselect' : 'styles',
+                };
+                finalConfig.quickbars_insert_toolbar = finalConfig.quickbars_insert_toolbar.split(' ').map(tool => {
+                    return renameTools[tool] || tool;
+                }).join(' ');
+                finalConfig.quickbars_selection_toolbar = finalConfig.quickbars_selection_toolbar.split(' ').map(tool => {
+                    return renameTools[tool] || tool;
+                }).join(' ');
+                finalConfig.contextmenu = finalConfig.contextmenu.split(' ').map(tool => {
+                    return renameTools[tool] || tool;
+                }).join(' ');
+
 
                 finalConfig.target = el;
                 finalConfig.file_picker_callback = (callback, value, meta) => {
