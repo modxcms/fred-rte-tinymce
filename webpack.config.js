@@ -1,6 +1,5 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = (env, options) => {
     const isProd = options.mode === 'production';
@@ -20,7 +19,8 @@ module.exports = (env, options) => {
             library: 'FredRTETinyMCE',
             libraryTarget: 'umd',
             libraryExport: 'default',
-            filename: 'fredrtetinymce.min.js'
+            filename: 'fredrtetinymce.min.js',
+            clean: true,
         },
 
         module: {
@@ -69,9 +69,6 @@ module.exports = (env, options) => {
         },
 
         plugins: [
-            isProd ? new CleanWebpackPlugin({
-                cleanOnceBeforeBuildPatterns: ['fredrtetinymce.*']
-            }) : () => {},
             new MiniCssExtractPlugin({
                 filename: "fredrtetinymce.css"
             })

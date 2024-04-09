@@ -305,7 +305,7 @@ export default (fred, pluginTools) => {
             win.showTab(currentTab);
 
             document.querySelectorAll('.tox-dialog').forEach((item) => {
-                item.classList.add('fred');
+                item.classList.add('mce-fred--modxlink');
             });
 
 
