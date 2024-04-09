@@ -1,39 +1,29 @@
 export default class Data {
     constructor(editor) {
         this.editor = editor;
+        window.editor = editor;
         this.element = editor.dom.getParent(editor.selection.getStart(), 'a[href]');
-        
         const textarea = document.createElement('textarea');
-        textarea.innerHTML = editor.selection.getContent();
+        textarea.innerHTML = this.editor.selection.getContent();
         
         this.initialData = {
-            link_text: textarea.value,
+            link_text: this.editor.selection.getContent(),
             link_title: '',
             classes: '',
             new_window: false,
-            page: {
-                page: '',
-                url: '',
-                anchor: '',
-                parameters: ''
-            },
-            url: {
-                url: ''
-            },
-            email: {
-                to: '',
-                subject: '',
-                body: ''
-            },
-            phone: {
-                phone: ''
-            },
-            file: {
-                file: ''
-            }
+            'page_page': '',
+            'page_url': '',
+            'page_anchor': '',
+            'page_parameters': '',
+            'url_url': '',
+            'email_to': '',
+            'email_subject': '',
+            'email_body': '',
+            'phone_phone': '',
+            'file_file': { value: '', metadata: undefined }
         };
         
-        this.activeTab = 'page';
+        this.activeTab = 'url';
         this.data = this.parseData();
     }
     
@@ -61,54 +51,34 @@ export default class Data {
         this.editor.selection.select(this.element);
         
         const data = {
-            global: {
-                link_text: '',
-                link_title: '',
-                classes: '',
-                new_window: false
-            },
-            page: {
-                ...(this.initialData.page || {})
-            },
-            url: {
-                ...(this.initialData.url || {})
-            },
-            email: {
-                ...(this.initialData.email || {})
-            },
-            phone: {
-                ...(this.initialData.phone || {})
-            },
-            file: {
-                ...(this.initialData.file || {})
-            }
+            link_text: this.editor.selection.getContent(),
+            link_title: '',
+            classes: '',
+            new_window: false,
+            ...(this.initialData || {})
+
         };
 
-        data.global.link_title = this.element.getAttribute('title');
-        data.global.classes = this.element.getAttribute('class');
-        data.global.new_window = (this.element.getAttribute('target') === '_blank');
-        data.global.link_text = this.element.innerHTML;
+        data.link_title = this.element.getAttribute('title') ?? '';
+        data.classes = this.element.getAttribute('class') ?? '';
+        data.new_window = (this.element.getAttribute('target') === '_blank');
+        data.link_text = this.element.innerHTML;
 
         const linkType = this.element.dataset.fredLinkType;
-        let url = this.element.getAttribute('href') || '';
+        let url = this.element.getAttribute('href')  ?? '';
 
         if (linkType === 'page') {
-            data.page.page = this.element.getAttribute('data-fred-link-page');
-            data.page.anchor = this.element.getAttribute('data-fred-link-anchor');
-            data.page.parameters = this.element.getAttribute('data-fred-link-parameters');
+            data.page_page = this.element.getAttribute('data-fred-link-page') ?? '';
+            data.page_anchor = this.element.getAttribute('data-fred-link-anchor') ?? '';
+            data.page_parameters = this.element.getAttribute('data-fred-link-parameters') ?? '';
 
-            if (data.page.page || data.page.anchor || data.page.parameters) {
-                data.page.url = url.replace(('#' + data.page.anchor), '');
-                data.page.url = data.page.url.replace(('?' + data.page.parameters), '');
+            if (data.page_page || data.page_anchor || data.page_parameters) {
+                data.page_url = url.replace(('#' + data.page_anchor), '');
+                data.page_url = data.page_url.replace(('?' + data.page_parameters), '');
     
                 return {
                     tab: 'page',
-                    data: {
-                        ...(data.global),
-                        page: {
-                            ...(data.page)
-                        }
-                    }
+                    data,
                 };
             }
         }
@@ -118,73 +88,53 @@ export default class Data {
                 url = url.slice(7);
                 url = url.split('?');
 
-                data.email.to = url[0];
+                data.email_to = url[0];
                 if (url[1]) {
                     const components = url[1].split('&');
                     components.forEach(component => {
                         component = component.split('=');
                         if (component[0] === 'subject') {
-                            data.email.subject = decodeURI(component[1]);
+                            data.email_subject = decodeURI(component[1]);
                         }
 
                         if (component[0] === 'body') {
-                            data.email.body = decodeURI(component[1]);
+                            data.email_body = decodeURI(component[1]);
                         }
                     });
                 }
 
                 return {
                     tab: 'email',
-                    data: {
-                        ...(data.global),
-                        email: {
-                            ...(data.email)
-                        }
-                    }
+                    data,
                 }
             }
         }
 
         if (linkType === 'phone') {
             if (url.slice(0, 4) === 'tel:') {
-                data.phone.phone = url.slice(4);
+                data.phone_phone = url.slice(4);
 
                 return {
                     tab: 'phone',
-                    data: {
-                        ...(data.global),
-                        phone: {
-                            ...(data.phone)
-                        }
-                    }
+                    data,
                 }
             }
         }
 
         if (linkType === 'file') {
-            data.file.file = url;
+            data.file_file = { value: url, metadata: undefined };
             
             return {
                 tab: 'file',
-                data: {
-                    ...(data.global),
-                    file: {
-                        ...(data.file)
-                    }
-                }
+                data,
             }
         }
 
-        data.url.url = url;
+        data.url_url = url;
 
         return {
             tab: 'url',
-            data: {
-                ...(data.global),
-                url: {
-                    ...(data.url)
-                }
-            }
+            data,
         };
     }
 }

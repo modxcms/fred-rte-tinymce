@@ -1,5 +1,10 @@
 Changelog for FredRTETinyMCE.
 
+1.2.0-pl
+==============
+- Migrate to TinyMCE 6
+
+
 1.1.1-pl
 ==============
 

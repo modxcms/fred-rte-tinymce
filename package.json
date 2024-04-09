@@ -21,31 +21,31 @@
     "dist-web": "fredrtetinymce.min.js"
   },
   "devDependencies": {
-    "@babel/cli": "^7.13.14",
-    "@babel/core": "^7.13.14",
-    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.7",
+    "@babel/plugin-transform-modules-commonjs": "^7.23.3",
     "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.13.12",
-    "@babel/register": "^7.13.14",
-    "babel-loader": "^8.2.2",
+    "@babel/preset-env": "^7.23.8",
+    "@babel/register": "^7.23.7",
+    "babel-loader": "^9.1.3",
     "babel-plugin-add-module-exports": "^1.0.4",
     "braces": "^3.0.2",
-    "clean-webpack-plugin": "^3.0.0",
-    "del": "^6.0.0",
-    "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-env": "^0.4.0",
-    "gulp-load-plugins": "^2.0.6",
-    "gulp-util": "^3.0.8",
     "lodash": "^4.17.21",
     "lodash.template": "^4.5.0",
     "merge-stream": "^2.0.0",
+    "mini-css-extract-plugin": "^2.7.7",
     "object-assign": "^4.1.1",
     "randomatic": "^3.1.1",
-    "webpack": "^5.76.0",
-    "webpack-cli": "^4.6.0",
-    "webpack-node-externals": "^2.5.2"
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "autoprefixer": "^10.4.17",
+    "css-loader": "^6.9.1",
+    "cssnano": "^6.0.3",
+    "postcss-loader": "^8.0.0",
+    "sass": "^1.70.0",
+    "sass-loader": "^14.0.0"
+  }
 }

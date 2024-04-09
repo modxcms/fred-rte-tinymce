@@ -1,0 +1,19 @@
+.mce-fred--modxlink{
+  .choices {
+    margin-bottom: 4px;
+  }
+  .tox-form > div {
+    margin-bottom: 4px;
+  }
+  @media screen and (prefers-color-scheme: dark) {
+    .choices__inner,
+    .choices__list--dropdown,
+    .choices[data-type*=select-one] .choices__input {
+      background-color: #2b3b4e;
+      border-color: #161f29;
+    }
+    .choices__list--dropdown .choices__item--selectable.is-highlighted {
+      background-color: #161f29;
+    }
+  }
+}
