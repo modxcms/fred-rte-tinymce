@@ -1,5 +1,9 @@
 Changelog for FredRTETinyMCE.
 
+1.2.1-pl
+==============
+- base the TinyMCE language off of the MODX manager language
+
 1.2.0-pl
 ==============
 - Migrate to TinyMCE 6

@@ -9,6 +9,7 @@ export default (fred, pluginTools) => {
     return (el, config, onInit, onChange, onFocus, onBlur) => {
         const promise = new Promise((resolve, reject) => {
             setTimeout(() => {
+                const lang = fred.rteLanguage || 'en';
                 const finalConfig = {
                     menubar: false,
                     inline: true,
@@ -20,6 +21,8 @@ export default (fred, pluginTools) => {
                     branding: false,
                     relative_urls: false,
                     image_dimensions: false,
+                    language: lang,
+                    language_url: 'https://cdn.tiny.cloud/1/no-api-key/tinymce/6.8.3/langs/'+lang+'.js',
                     powerpaste_word_import: 'clean',
                     powerpaste_html_import: 'clean',
                     a11y_advanced_options: true,
