@@ -64,10 +64,11 @@ export default (fred, pluginTools) => {
                 finalConfig.quickbars_selection_toolbar = finalConfig.quickbars_selection_toolbar.split(' ').map(tool => {
                     return renameTools[tool] || tool;
                 }).join(' ');
-                finalConfig.contextmenu = finalConfig.contextmenu.split(' ').map(tool => {
-                    return renameTools[tool] || tool;
-                }).join(' ');
-
+                if (finalConfig.contextmenu) {
+                    finalConfig.contextmenu = finalConfig.contextmenu.split(' ').map(tool => {
+                        return renameTools[tool] || tool;
+                    }).join(' ');
+                }
 
                 finalConfig.target = el;
                 finalConfig.file_picker_callback = (callback, value, meta) => {

@@ -1,5 +1,9 @@
 Changelog for FredRTETinyMCE.
 
+1.2.2-pl
+==============
+- fix error if no context menu was set
+
 1.2.1-pl
 ==============
 - base the TinyMCE language off of the MODX manager language
