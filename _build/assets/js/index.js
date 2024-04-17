@@ -26,6 +26,7 @@ export default (fred, pluginTools) => {
                     powerpaste_word_import: 'clean',
                     powerpaste_html_import: 'clean',
                     a11y_advanced_options: true,
+                    contextmenu: '',
                     skin: useDarkMode ? 'oxide-dark' : 'oxide',
                     ...config
                 };
@@ -68,6 +69,11 @@ export default (fred, pluginTools) => {
                     finalConfig.contextmenu = finalConfig.contextmenu.split(' ').map(tool => {
                         return renameTools[tool] || tool;
                     }).join(' ');
+                }
+                if (finalConfig.autofocus) {
+                    if (finalConfig.autofocus === false) {
+                        delete finalConfig.autofocus;
+                    }
                 }
 
                 finalConfig.target = el;
