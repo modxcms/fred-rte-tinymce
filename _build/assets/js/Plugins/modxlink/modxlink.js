@@ -6,6 +6,11 @@ export default (fred, pluginTools) => {
     const { fredConfig, fetch, Choices } = pluginTools;
 
     return (editor, url) => {
+
+        editor.options.register('link_class_list', {
+            processor: 'object[]',
+            default: []
+        });
         const handleClick = () => {
             const dataHelper = new Data(editor);
             let currentTab = dataHelper.getActiveTab() ?? 'page';
@@ -30,6 +35,8 @@ export default (fred, pluginTools) => {
 
                         if (item.items) {
                             menuItem.items = appendItems(item.items);
+                        } else if (item.menu) {
+                            menuItem.items = appendItems(item.menu);
                         } else {
                             menuItem.value = item.value;
 
@@ -62,13 +69,14 @@ export default (fred, pluginTools) => {
             });
             if (editor.options.get('link_class_list')) {
                 linkOptions.push({
-                    name: 'classes',
                     type: 'listbox',
+                    name: 'classes',
                     label: fredConfig.lng('fredrtetinymce.classes'),
                     size: formsize,
                     items: buildListItems(
                         editor.options.get('link_class_list'),
                         function (item) {
+
                             if (item.value) {
                                 item.textStyle = function () {
                                     return editor.formatter.getCssText({inline: 'a', classes: [item.value]});

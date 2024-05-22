@@ -1,5 +1,9 @@
 Changelog for FredRTETinyMCE.
 
+1.2.3-pl
+==============
+- fix support for link_class_list
+
 1.2.2-pl
 ==============
 - fix error if no context menu was set
