@@ -206,6 +206,78 @@ export default (fred, pluginTools) => {
             let node = editor.selection.getNode()
             const linkState = (node.nodeName == "A");
 
+            let templateInputChoices;
+            const initChoices = () => {
+                const input = document.querySelector('#page_url');
+                if (input) {
+                    templateInputChoices = new Choices(input, {
+                        removeItemButton: true
+                    });
+
+                    templateInputChoices.ajax(callback => {
+                        fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&current=${data.page_page}`, {
+                            credentials: 'same-origin',
+                            headers: {
+                                'X-Fred-Token': fredConfig.jwt
+                            }
+                        })
+                            .then(response => {
+                                return response.json()
+                            })
+                            .then(json => {
+                                initData = json.data.resources;
+                                callback(json.data.resources, 'value', 'pagetitle');
+
+                                if (json.data.current) {
+                                    templateInputChoices.setChoices([json.data.current], 'value', 'pagetitle', false);
+                                    templateInputChoices.setValueByChoice(data.page_page);
+
+                                    const pageAnchorEl = document.getElementById('page_anchor-l');
+                                    if (pageAnchorEl) {
+                                        pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: json.data.current.pagetitle});
+                                    }
+                                }
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            });
+                    });
+
+                    templateInputChoices.passedElement.addEventListener('search', event => {
+                        clearTimeout(lookupTimeout);
+                        lookupTimeout = setTimeout(serverLookup, 200);
+                    });
+
+                    templateInputChoices.passedElement.addEventListener('choice', event => {
+                        templateInputChoices.setChoices(initData, 'value', 'pagetitle', true);
+
+                        choicesData.page_page = event.detail.choice.value;
+                        choicesData.page_url = event.detail.choice.customProperties.url;
+
+                        if (!data.link_text) {
+                            data.link_text = event.detail.choice.label;
+                            linkText.value(event.detail.choice.label);
+                        }
+
+                        const pageAnchorEl = document.getElementById('page_anchor-l');
+                        if (pageAnchorEl) {
+                            pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: event.detail.choice.label});
+                        }
+                    });
+
+                    templateInputChoices.passedElement.addEventListener('removeItem', event => {
+                        if (templateInputChoices.getValue()) return;
+
+                        choicesData.page_page = '';
+                        choicesData.page_url = '';
+                        const pageAnchorEl = document.getElementById('page_anchor-l');
+                        if (pageAnchorEl) {
+                            pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: fredConfig.pageSettings.pagetitle});
+                        }
+                    });
+                }
+            }
+
             // Open window
             const win = editor.windowManager.open({
                 title: fredConfig.lng('fredrtetinymce.link_to'),
@@ -223,74 +295,7 @@ export default (fred, pluginTools) => {
                 onTabChange: (dialogApi, details) => {
                     currentTab = details.newTabName;
 
-                    const input = document.querySelector('#page_url');
-                    if (input) {
-                        const templateInputChoices = new Choices(input, {
-                            removeItemButton: true
-                        });
-
-                        templateInputChoices.ajax(callback => {
-                            fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&current=${data.page_page}`, {
-                                credentials: 'same-origin',
-                                headers: {
-                                    'X-Fred-Token': fredConfig.jwt
-                                }
-                            })
-                                .then(response => {
-                                    return response.json()
-                                })
-                                .then(json => {
-                                    initData = json.data.resources;
-                                    callback(json.data.resources, 'value', 'pagetitle');
-
-                                    if (json.data.current) {
-                                        templateInputChoices.setChoices([json.data.current], 'value', 'pagetitle', false);
-                                        templateInputChoices.setValueByChoice(data.page_page);
-
-                                        const pageAnchorEl = document.getElementById('page_anchor-l');
-                                        if (pageAnchorEl) {
-                                            pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: json.data.current.pagetitle});
-                                        }
-                                    }
-                                })
-                                .catch(error => {
-                                    console.log(error);
-                                });
-                        });
-
-                        templateInputChoices.passedElement.addEventListener('search', event => {
-                            clearTimeout(lookupTimeout);
-                            lookupTimeout = setTimeout(serverLookup, 200);
-                        });
-
-                        templateInputChoices.passedElement.addEventListener('choice', event => {
-                            templateInputChoices.setChoices(initData, 'value', 'pagetitle', true);
-
-                            choicesData.page_page = event.detail.choice.value;
-                            choicesData.page_url = event.detail.choice.customProperties.url;
-
-                            if (!data.link_text) {
-                                data.link_text = event.detail.choice.label;
-                                linkText.value(event.detail.choice.label);
-                            }
-
-                            const pageAnchorEl = document.getElementById('page_anchor-l');
-                            if (pageAnchorEl) {
-                                pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: event.detail.choice.label});
-                            }
-                        });
-
-                        templateInputChoices.passedElement.addEventListener('removeItem', event => {
-                            if (templateInputChoices.getValue()) return;
-
-                            choicesData.page_page = '';
-                            choicesData.page_url = '';
-                            const pageAnchorEl = document.getElementById('page_anchor-l');
-                            if (pageAnchorEl) {
-                                pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: fredConfig.pageSettings.pagetitle});
-                            }
-                        });
-                    }
+                    initChoices();
                 },
                 onSubmit: (api) => {
                     const link = new Link(editor);
@@ -359,73 +364,7 @@ export default (fred, pluginTools) => {
                 }
             };
 
-            const input = document.querySelector('#page_url');
-            if (input) {
-                const templateInputChoices = new Choices(input, {
-                    removeItemButton: true
-                });
-
-                templateInputChoices.ajax(callback => {
-                    fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&current=${data.page_page}`, {
-                        credentials: 'same-origin',
-                        headers: {
-                            'X-Fred-Token': fredConfig.jwt
-                        }
-                    })
-                        .then(response => {
-                            return response.json()
-                        })
-                        .then(json => {
-                            initData = json.data.resources;
-                            callback(json.data.resources, 'value', 'pagetitle');
-
-                            if (json.data.current) {
-                                templateInputChoices.setChoices([json.data.current], 'value', 'pagetitle', false);
-                                templateInputChoices.setValueByChoice(data.page_page);
-
-                                const pageAnchorEl = document.getElementById('page_anchor-l');
-                                if (pageAnchorEl) {
-                                    pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: json.data.current.pagetitle});
-                                }
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        });
-                });
-
-                templateInputChoices.passedElement.addEventListener('search', event => {
-                    clearTimeout(lookupTimeout);
-                    lookupTimeout = setTimeout(serverLookup, 200);
-                });
-
-                templateInputChoices.passedElement.addEventListener('choice', event => {
-                    templateInputChoices.setChoices(initData, 'value', 'pagetitle', true);
-                    choicesData.page_page = event.detail.choice.value;
-                    choicesData.page_url = event.detail.choice.customProperties.url;
-
-                    if (!data.link_text) {
-                        data.link_text = event.detail.choice.label;
-                        linkText.value(event.detail.choice.label);
-                    }
-
-                    const pageAnchorEl = document.getElementById('page_anchor-l');
-                    if (pageAnchorEl) {
-                        pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: event.detail.choice.label});
-                    }
-                });
-
-                templateInputChoices.passedElement.addEventListener('removeItem', event => {
-                    if (templateInputChoices.getValue()) return;
-
-                    choicesData.page_page = '';
-                    choicesData.page_url = '';
-                    const pageAnchorEl = document.getElementById('page_anchor-l');
-                    if (pageAnchorEl) {
-                        pageAnchorEl.innerText = fredConfig.lng('fredrtetinymce.block_on', {page: fredConfig.pageSettings.pagetitle});
-                    }
-                });
-            }
+            initChoices();
         }
 
         editor.ui.registry.addButton('modxlink', {
