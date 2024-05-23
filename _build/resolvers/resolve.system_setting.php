@@ -12,6 +12,13 @@ if ($object->xpdo) {
                 $setting->set('value', 'TinyMCE');
                 $setting->save();
             }
+            $lit = $modx->getObject('modSystemSetting', ['key' => 'fredrtetinymce.last_install_time']);
+            if (!$setting) {
+                $lit = $modx->newObject('modSystemSetting');
+                $lit->set('key', 'fredrtetinymce.last_install_time');
+            }
+            $lit->set('value', time());
+            $lit->save();
 
             break;
     }

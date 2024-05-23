@@ -3,7 +3,7 @@
   "lowCaseName": "fredrtetinymce",
   "description": "",
   "author": "John Peca",
-  "version": "1.2.3-pl",
+  "version": "1.2.4-pl",
   "package": {
     "menus": [],
     "elements": {
@@ -16,7 +16,13 @@
           ]
         }
       ]
-    }
+    },
+    "systemSettings": [
+      {
+        "key": "last_install_time",
+        "value": "0"
+      }
+    ]
   },
   "dependencies": [
     {
