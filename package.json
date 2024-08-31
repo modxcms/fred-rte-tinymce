@@ -36,7 +36,7 @@
     "mini-css-extract-plugin": "^2.7.7",
     "object-assign": "^4.1.1",
     "randomatic": "^3.1.1",
-    "webpack": "^5.90.0",
+    "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4",
     "webpack-node-externals": "^3.0.0"
   },
