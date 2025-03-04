@@ -22,7 +22,7 @@ export default (fred, pluginTools) => {
                     relative_urls: false,
                     image_dimensions: false,
                     language: lang,
-                    language_url: 'https://cdn.tiny.cloud/1/no-api-key/tinymce/6.8.3/langs/'+lang+'.js',
+                    language_url: 'https://cdn.tiny.cloud/1/no-api-key/tinymce/6.8.5/langs/'+lang+'.js',
                     a11y_advanced_options: true,
                     contextmenu: '',
                     skin: useDarkMode ? 'oxide-dark' : 'oxide',
