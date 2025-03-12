@@ -67,7 +67,7 @@ export default (fred, pluginTools) => {
                 size: formsize,
 
             });
-            if (editor.options.get('link_class_list')) {
+            if (editor.options.get('link_class_list').length) {
                 linkOptions.push({
                     type: 'listbox',
                     name: 'classes',
