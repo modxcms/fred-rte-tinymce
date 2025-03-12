@@ -215,7 +215,7 @@ export default (fred, pluginTools) => {
                     });
 
                     templateInputChoices.ajax(callback => {
-                        fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&current=${data.page_page}`, {
+                        fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&current=${data.page_page}&modx=${fredConfig.config.modxVersion}`, {
                             credentials: 'same-origin',
                             headers: {
                                 'X-Fred-Token': fredConfig.jwt
@@ -345,7 +345,7 @@ export default (fred, pluginTools) => {
                 if (query in lookupCache) {
                     populateOptions(lookupCache[query]);
                 } else {
-                    fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&query=${query}`, {
+                    fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&query=${query}&modx=${fredConfig.config.modxVersion}`, {
                         credentials: 'same-origin',
                         headers: {
                             'X-Fred-Token': fredConfig.jwt
