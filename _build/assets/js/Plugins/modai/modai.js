@@ -40,11 +40,7 @@ export default (editor, url) => {
 
     const getEnhancePrompts = () => {
         if (editor.options.get('modai_enhance_prompts').length) {
-            try {
-                return editor.options.get('modai_enhance_prompts');
-            } catch {
-                return [];
-            }
+            return editor.options.get('modai_enhance_prompts');
         }
     }
 
