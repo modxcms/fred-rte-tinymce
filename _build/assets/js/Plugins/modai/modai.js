@@ -3,11 +3,6 @@ export default (editor, url) => {
         return;
     }
 
-    if (typeof window.editors === 'undefined') {
-        window.editors = {};
-    }
-    window.editors[editor.id] = editor;
-
     const modAIPromptHandler = () => {
         const selectedText = editor.selection.getContent({format: 'text'});
 
@@ -40,7 +35,7 @@ export default (editor, url) => {
 
     const getEnhancePrompts = () => {
         try {
-            return JSON.parse(MODx.config[`fredrtetinymce.modai.${editor.id}.text.modify_prompts`] || MODx.config[`fredrtetinymce.modai.global.text.modify_prompts`] || '{}');
+            return JSON.parse(editor.modai_enhance_prompts || '{}');
         } catch {
             return [];
         }
