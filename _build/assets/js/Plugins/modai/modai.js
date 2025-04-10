@@ -3,6 +3,11 @@ export default (editor, url) => {
         return;
     }
 
+    editor.options.register('modai_enhance_prompts', {
+        processor: 'object[]',
+        default: []
+    });
+
     const modAIPromptHandler = () => {
         const selectedText = editor.selection.getContent({format: 'text'});
 
@@ -34,10 +39,12 @@ export default (editor, url) => {
     }
 
     const getEnhancePrompts = () => {
-        try {
-            return JSON.parse(editor.modai_enhance_prompts || '{}');
-        } catch {
-            return [];
+        if (editor.options.get('modai_enhance_prompts').length) {
+            try {
+                return editor.options.get('modai_enhance_prompts');
+            } catch {
+                return [];
+            }
         }
     }
 

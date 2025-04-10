@@ -17,7 +17,56 @@ export default (fred, pluginTools) => {
                     plugins: 'quickbars modxlink image media lists modai',
                     quickbars_insert_toolbar: "image media quicktable modxlink modai_generate",
                     quickbars_selection_toolbar: 'bold italic underline | alignleft aligncenter alignright | bullist numlist | modxlink h2 h3 h4 blockquote | modai_generate modai_enhance',
-                    modai_enhance_prompts: "[{\"label\":\"Proofread\",\"prompt\":\"Proofread and fix any spelling or grammar mistakes\"},{\"label\":\"Clarify\",\"prompt\":\"Improve this copy to eliminate unclear thoughts or awkward phrasing\"},{\"label\":\"Length\",\"prompts\":[{\"label\":\"Add a Paragraph\",\"prompt\":\"- Add a paragraph to this copy.\\n- You can rewrite the other copy if it enahances the copy\\n- Format it with HTML markup so it will work in the TinyMCE editor when pasted in.\"},{\"label\":\"Add a Sentence\",\"prompt\":\"- Add a sentence to this copy that will improve it\\n- You can rewrite the other copy if it enahances the copy\\n- Format it with HTML markup so it will work in the TinyMCE editor when pasted in.\"},{\"label\":\"Remove a Sentence\",\"prompt\":\"- Remove a sentence from this copy. Format it with HTML markup so it will work in the TinyMCE editor when pasted in.\"},{\"label\":\"Cut in Half\",\"prompt\":\"- Condense this copy to roughly half of its current length\\n- Maintain important concepts and key topics\\n- Combine or eliminate paragraphs if it makes sense and helps with readability\\n- Format it with HTML markup so it will work in the TinyMCE editor when pasted in.\"}]},{\"label\":\"Reading Level\",\"prompts\":[{\"label\":\"Elementary school\",\"prompt\":\"Rewrite this copy to ensure it is readable at an Elementary school reading level.\"},{\"label\":\"Middle school\",\"prompt\":\"Rewrite this copy to ensure it is readable at a Middle school reading level.\"},{\"label\":\"High school\",\"prompt\":\"Rewrite this copy to ensure it is readable at a High school reading level.\"},{\"label\":\"College\",\"prompt\":\"Rewrite this copy to ensure it is readable at a College reading level.\"}]},{\"label\":\"Change Tone\",\"prompts\":[{\"label\":\"Formal\",\"prompt\":\"Rewrite this with a formal tone.\"},{\"label\":\"Conversational\",\"prompt\":\"Rewrite this with a casual, conversational tone.\"},{\"label\":\"Professional\",\"prompt\":\"Rewrite this with a professional tone.\"},{\"label\":\"Humorous\",\"prompt\":\"Rewrite this with a humorous tone.\"},{\"label\":\"Persuasive\",\"prompt\":\"Rewrite this with an persuasive tone.\"}]},{\"label\":\"Change Style\",\"prompts\":[{\"label\":\"Business\",\"prompt\":\"Rewrite this in a Business style\"},{\"label\":\"Technical\",\"prompt\":\"Rewrite this in a Technical style\"},{\"label\":\"AP Style Manual\",\"prompt\":\"Reformat this to adhere to the AP Style Manual\"},{\"label\":\"Chicago Style Manual\",\"prompt\":\"Reformat this to adhere to the Chicago Style Manual\"},{\"label\":\"David Olgivy\",\"prompt\":\"Rewrite this in the style of the expert ad copywriter David Olgivy\"}]},{\"label\":\"Translate\",\"prompts\":[{\"label\":\"Chinese\",\"prompt\":\"Translate this to Chinese\"},{\"label\":\"Dutch\",\"prompt\":\"Translate this to Dutch\"},{\"label\":\"English (CA)\",\"prompt\":\"Localise or translate this to Canadian English\"},{\"label\":\"English (UK)\",\"prompt\":\"Localise or translate this to British English\"},{\"label\":\"English (US)\",\"prompt\":\"Localize or translate this to American English\"},{\"label\":\"English (RN)\",\"prompt\":\"Localize this to the writing style of someone who lives in rural America and speaks with a lot of slang and colloquialisms like \\\"y'all\\\" instead of \\\",you all\\\", and \\\"fixin'\\\" instead of \\\"about to\\\"\"},{\"label\":\"French\",\"prompt\":\"Translate this to French\"},{\"label\":\"German\",\"prompt\":\"Translate this to German\"},{\"label\":\"Italian\",\"prompt\":\"Translate this to Italian\"},{\"label\":\"Japanese\",\"prompt\":\"Translate this to Japanese\"},{\"label\":\"Korean\",\"prompt\":\"Translate this to Korean\"},{\"label\":\"Portuguese (BR)\",\"prompt\":\"Translate this to Brazillian Portugese\"},{\"label\":\"Portuguese (PT)\",\"prompt\":\"Translate this to European Portugese\"},{\"label\":\"Russian\",\"prompt\":\"Translate this to Russian\"},{\"label\":\"Spanish\",\"prompt\":\"Translate this to Spanish\"}]}]",
+                    modai_enhance_prompts: [
+                        {
+                            label: "Proofread",
+                            prompt: "Proofread and fix any spelling or grammar mistakes"
+                        }, {
+                            label: "Clarify",
+                            prompt: "Improve this copy to eliminate unclear thoughts or awkward phrasing"
+                        }, {
+                            label: "Length",
+                            prompts: [{
+                                label: "Add a Paragraph",
+                                prompt: "- Add a paragraph to this copy.\\n- You can rewrite the other copy if it enahances the copy\\n- Format it with HTML markup so it will work in the TinyMCE editor when pasted in."
+                            }, {
+                                label: "Add a Sentence",
+                                prompt: "- Add a sentence to this copy that will improve it\\n- You can rewrite the other copy if it enahances the copy\\n- Format it with HTML markup so it will work in the TinyMCE editor when pasted in."
+                            }, {
+                                label: "Remove a Sentence",
+                                prompt: "- Remove a sentence from this copy. Format it with HTML markup so it will work in the TinyMCE editor when pasted in."
+                            }, {
+                                label: "Cut in Half",
+                                prompt: "- Condense this copy to roughly half of its current length\\n- Maintain important concepts and key topics\\n- Combine or eliminate paragraphs if it makes sense and helps with readability\\n- Format it with HTML markup so it will work in the TinyMCE editor when pasted in."
+                            }]
+                        }, {
+                            label: "Reading Level",
+                            prompts: [{
+                                label: "Elementary",
+                                prompt: "Rewrite this copy to ensure it is readable at an Elementary school reading level."
+                            }, {
+                                label: "High school",
+                                prompt: "Rewrite this copy to ensure it is readable at a High school reading level."
+                            }, {
+                                label: "College",
+                                prompt: "Rewrite this copy to ensure it is readable at a College reading level."
+                            }]
+                        }, {
+                            label: "Change Tone",
+                            prompts: [{
+                                label: "Formal",
+                                prompt: "Rewrite this with a formal tone."
+                            }, {
+                                label: "Conversational",
+                                prompt: "Rewrite this with a casual, conversational tone."
+                            }, {
+                                label: "Professional",
+                                prompt: "Rewrite this with a professional tone."
+                            }, {label: "Humorous", prompt: "Rewrite this with a humorous tone."}, {
+                                label: "Persuasive",
+                                prompt: "Rewrite this with an persuasive tone."
+                            }]
+                        }],
                     image_advtab: true,
                     branding: false,
                     relative_urls: false,
