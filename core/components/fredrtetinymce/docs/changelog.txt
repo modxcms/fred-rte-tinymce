@@ -1,6 +1,10 @@
 Changelog for FredRTETinyMCE.
 
-1.2.4-pl
+1.3.0
+==============
+- Add support for [modAI](https://extras.modx.com/package/modai)
+
+1.2.5-pl
 ==============
 - fix page search in modxlink plugin on MODX 2.x
 
