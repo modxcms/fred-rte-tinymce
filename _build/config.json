@@ -21,6 +21,12 @@
       {
         "key": "last_install_time",
         "value": "0"
+      },
+      {
+        "key": "modai.global.text.base_prompt",
+        "area": "modai",
+        "type": "textarea",
+        "value": "- This is not a conversation, do not include justifcation, suggestions, or explanation\n- The output should be usable as is, without requiring editing or modification\n- Format it with HTML markup so it will work in the TinyMCE rich text editor"
       }
     ]
   },
