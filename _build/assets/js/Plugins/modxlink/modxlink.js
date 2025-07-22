@@ -122,7 +122,7 @@ export default (fred, pluginTools) => {
                 linkOptions.push({
                     type: 'input',
                     name: 'aria_label',
-                    label: 'Aria Label',
+                    label: fredConfig.lng('fredrtetinymce.aria_label'),
                     size: formsize,
                 });
             }
@@ -130,7 +130,7 @@ export default (fred, pluginTools) => {
                 linkOptions.push({
                     type: 'input',
                     name: 'aria_labelledby',
-                    label: 'Aria Labelled By',
+                    label: fredConfig.lng('fredrtetinymce.aria_labelledby'),
                     size: formsize,
                 });
             }
@@ -138,14 +138,14 @@ export default (fred, pluginTools) => {
                 linkOptions.push({
                     type: 'input',
                     name: 'aria_describedby',
-                    label: 'Aria Described By',
+                    label: fredConfig.lng('fredrtetinymce.aria_describedby'),
                     size: formsize,
                 });
             }
             linkOptions.push({
                 type: 'input',
                 name: 'rel',
-                label: 'Relationship',
+                label: fredConfig.lng('fredrtetinymce.relationship'),
                 size: formsize,
             });
             const linkOptionsPanel = {
@@ -158,7 +158,7 @@ export default (fred, pluginTools) => {
                 checboxOptions.push({
                     type: 'checkbox',
                     name: 'aria_hidden',
-                    label: 'Aria Hidden',
+                    label: fredConfig.lng('fredrtetinymce.aria_hidden'),
                     size: formsize,
                 });
             }
