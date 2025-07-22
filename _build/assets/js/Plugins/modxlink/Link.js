@@ -39,12 +39,36 @@ export default class Link {
             attributes.title = data.link_title;
         }
 
-        if (data.new_window) {
-            attributes.target = '_blank';
+        if (data.id) {
+            attributes.id = data.id;
+        }
+
+        if (data.rel) {
+            attributes.rel = data.rel;
+        }
+
+        if (data.aria_label) {
+            attributes['aria-label'] = data.aria_label;
+        }
+
+        if (data.aria_labelledby) {
+            attributes['aria-labelledby'] = data.aria_labelledby;
+        }
+
+        if (data.aria_describedby) {
+            attributes['aria-describedby'] = data.aria_describedby;
+        }
+
+        if (data.aria_hidden) {
+            attributes['aria-hidden'] = data.aria_hidden;
         }
 
         if (data.classes) {
             attributes.class = data.classes;
+        }
+
+        if (data.new_window) {
+            attributes.target = '_blank';
         }
         
         return attributes;
@@ -57,6 +81,9 @@ export default class Link {
             ...(Link.getGeneralAttributes(data, 'page')),
             'data-fred-link-page': data.page_page
         };
+        if (typeof data.page_url === 'undefined') {
+            data.page_url = `[[~${data.page_page}]]`
+        }
         attributes.href = data.page_url;
 
         if (data.page_anchor) {

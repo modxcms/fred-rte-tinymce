@@ -11,6 +11,21 @@ export default (fred, pluginTools) => {
             processor: 'object[]',
             default: []
         });
+
+        editor.options.register('enable_link_list', {
+            processor: 'boolean',
+            default: false
+        });
+
+        editor.options.register('link_list', {
+            processor: 'object[]',
+            default: []
+        });
+
+        editor.options.register('enable_link_aria', {
+            processor: 'boolean',
+            default: false
+        });
         const handleClick = () => {
             const dataHelper = new Data(editor);
             let currentTab = dataHelper.getActiveTab() ?? 'page';
@@ -20,7 +35,8 @@ export default (fred, pluginTools) => {
             let lookupTimeout = null;
             let initData = [];
             const formsize = 40;
-            const choicesData = {
+            const enableAria = editor.options.get('enable_link_aria');
+            let choicesData = {
                 'page_page': data.page_page,
                 'page_url': data.page_url,
             };
@@ -67,6 +83,15 @@ export default (fred, pluginTools) => {
                 size: formsize,
 
             });
+            if (enableAria || data.id) {
+                linkOptions.push({
+                    type: 'input',
+                    name: 'id',
+                    label: 'ID',
+                    size: formsize,
+
+                });
+            }
             if (editor.options.get('link_class_list').length) {
                 linkOptions.push({
                     type: 'listbox',
@@ -93,18 +118,80 @@ export default (fred, pluginTools) => {
                     label: fredConfig.lng('fredrtetinymce.classes'),
                 });
             }
-
+            if (enableAria || data.aria_label) {
+                linkOptions.push({
+                    type: 'input',
+                    name: 'aria_label',
+                    label: 'Aria Label',
+                    size: formsize,
+                });
+            }
+            if (enableAria || data.aria_labelledby) {
+                linkOptions.push({
+                    type: 'input',
+                    name: 'aria_labelledby',
+                    label: 'Aria Labelled By',
+                    size: formsize,
+                });
+            }
+            if (enableAria || data.aria_describedby) {
+                linkOptions.push({
+                    type: 'input',
+                    name: 'aria_describedby',
+                    label: 'Aria Described By',
+                    size: formsize,
+                });
+            }
             linkOptions.push({
+                type: 'input',
+                name: 'rel',
+                label: 'Relationship',
+                size: formsize,
+            });
+            const linkOptionsPanel = {
+                type: 'grid',
+                columns: 2,
+                items: linkOptions
+            };
+            const checboxOptions = [];
+            if (enableAria || data.aria_hidden) {
+                checboxOptions.push({
+                    type: 'checkbox',
+                    name: 'aria_hidden',
+                    label: 'Aria Hidden',
+                    size: formsize,
+                });
+            }
+            checboxOptions.push({
                 type: 'checkbox',
                 name: 'new_window',
                 size: formsize,
                 label: fredConfig.lng('fredrtetinymce.new_window'),
             });
+            const checkboxOptionsPanel = {
+                type: 'grid',
+                columns: 2,
+                items: checboxOptions
+            }
+            let pageSelector = null;
 
-            const linkOptionsPanel = {
-                type: 'panel',
-                items: linkOptions
-            };
+            if (editor.options.get('enable_link_list')) {
+                pageSelector = {
+                    type: 'listbox',
+                    name: 'page_page',
+                    label: fredConfig.lng('fredrtetinymce.page_title'),
+                    size: formsize,
+                    items: buildListItems(
+                        editor.options.get('link_list')
+                    )
+                }
+            } else {
+                pageSelector = {
+                    id: 'pagecontainer',
+                    type: 'htmlpanel',
+                    html: '<input type="hidden" name="page_page" /><label for="page_url" class="tox-label">' + fredConfig.lng('fredrtetinymce.page_title') + '</label><select id="page_url"></select>'
+                };
+            }
 
             const tabPanel = {
                 type: 'tabpanel',
@@ -114,11 +201,8 @@ export default (fred, pluginTools) => {
                         name: 'page',
                         items: [
                             linkOptionsPanel,
-                            {
-                                id: 'pagecontainer',
-                                type: 'htmlpanel',
-                                html: '<input type="hidden" name="page_page" /><label for="page_url" class="tox-label">' + fredConfig.lng('fredrtetinymce.page_title') + '</label><select id="page_url"></select>'
-                            },
+                            checkboxOptionsPanel,
+                            pageSelector,
                             {
                                 type: 'input',
                                 label: fredConfig.lng('fredrtetinymce.anchor'),
@@ -295,10 +379,16 @@ export default (fred, pluginTools) => {
                 onTabChange: (dialogApi, details) => {
                     currentTab = details.newTabName;
 
-                    initChoices();
+                    if (currentTab === 'page' && !templateInputChoices && !editor.options.get('enable_link_list')) {
+                        initChoices();
+                    }
                 },
                 onSubmit: (api) => {
                     const link = new Link(editor);
+                    if (editor.options.get('enable_link_list')) {
+                        // remove page_url and page_page from choicesData
+                        choicesData = {}
+                    }
                     link.save(currentTab, {...api.getData(), ...choicesData});
                     api.close();
                 },
@@ -380,6 +470,43 @@ export default (fred, pluginTools) => {
             onAction: handleClick,
             stateSelector: 'a[href]'
         });
+        const transformLinkList = (data) => {
+            const list = [];
+            data.forEach((link) => {
+                const item = {
+                    title: `${link.pagetitle} (${link.id})`,
+                    value: `${link.id}`,
+                    display: link.pagetitle,
+                    classes: '',
+                };
+                if (link.children.length) {
+                    item.menu = transformLinkList(link.children);
+                }
+                list.push(item);
+            })
+            return list;
+        }
+        const buildLinkList = () => {
+            const linklistUrl = `${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resource-tree&modx=${fredConfig.config.modxVersion}&context=${fredConfig.config.contextKey}`;
+            if (editor.options.get('enable_link_list')) {
+                fetch(linklistUrl, {
+                    credentials: 'same-origin',
+                    headers: {
+                        'X-Fred-Token': fredConfig.jwt
+                    }
+                })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        editor.options.set('link_list', transformLinkList(data.data.resources) || []);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+        }
+        buildLinkList();
 
         return {
             getMetadata: function () {

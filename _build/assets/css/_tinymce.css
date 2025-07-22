@@ -1,0 +1,6 @@
+.tox {
+  z-index: 99;
+  .tox-checkbox__label {
+    font-size: 14px;
+  }
+}

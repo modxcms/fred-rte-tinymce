@@ -10,7 +10,7 @@ module.exports = (env, options) => {
 
         entry: [
             '@babel/polyfill',
-            './_build/assets/sass/fred-rte-tinymce.scss',
+            './_build/assets/css/fred-rte-tinymce.css',
             './_build/assets/js/index.js'
         ],
 
@@ -53,12 +53,6 @@ module.exports = (env, options) => {
                         {
                             loader: "postcss-loader"
                         },
-                        {
-                            loader: "sass-loader",
-                            options: {
-                                implementation: require("sass")
-                            }
-                        }
                     ]
                 }
             ]
