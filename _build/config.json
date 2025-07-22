@@ -20,7 +20,13 @@
     "systemSettings": [
       {
         "key": "last_install_time",
+        "area": "default",
         "value": "0"
+      },
+      {
+        "key": "tiny_url",
+        "area": "default",
+        "value": "{fredrtetinymce.assets_url}web/tinymce/tinymce.min.js"
       },
       {
         "key": "modai.global.text.base_prompt",

@@ -4,8 +4,10 @@
   "description": "ES6 Universal Library Starter",
   "main": "./_build/assets/index.js",
   "scripts": {
-    "build": "webpack --progress --mode production",
-    "dev": "webpack --watch --progress --mode development"
+    "build": "webpack --progress --mode production&& npm run gettinymce && npm run getlangs",
+    "dev": "webpack --watch --progress --mode development",
+    "gettinymce": "cp -r node_modules/tinymce ./assets/components/fredrtetinymce/web/tinymce",
+    "getlangs": "cp -r node_modules/tinymce-i18n/langs6 ./assets/components/fredrtetinymce/web/tinymce/langs"
   },
   "license": "MIT",
   "files": [
@@ -38,6 +40,8 @@
     "autoprefixer": "^10.4.17",
     "css-loader": "^6.9.1",
     "cssnano": "^6.0.3",
-    "postcss-loader": "^8.0.0"
+    "postcss-loader": "^8.0.0",
+    "tinymce": "^6.8.6",
+    "tinymce-i18n": "^25.5.12"
   }
 }

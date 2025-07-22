@@ -30,9 +30,10 @@ try {
 }
 
 $lit = $fredRTETinyMCE->getOption('last_install_time');
+$tinyURL = $fredRTETinyMCE->getTinyMCEURL();
 
 $includes = '
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.5/tinymce.min.js" integrity="sha512-7QeC6Wn55MHBHO1O7ntUM/zfrx79lPQZo82PTVzO3SC+2fPmBBPWk+MUc7mZib3vRkG8ub9Jl3yUY3iXAyQYfw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="' . $tinyURL . '"></script>
     <script type="text/javascript" src="' . $fredRTETinyMCE->getOption('webAssetsUrl') . 'fredrtetinymce.min.js?v='.$lit.'"></script>
     <link href="' . $fredRTETinyMCE->getOption('webAssetsUrl') . 'fredrtetinymce.css?v='.$lit.'" rel="stylesheet" />
 ';

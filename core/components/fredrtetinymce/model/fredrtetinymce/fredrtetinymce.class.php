@@ -53,4 +53,24 @@ class FredRTETinyMCE {
         }
         return $option;
     }
+
+    public function getTinyMCEURL()
+    {
+        $tinyURL = $this->getOption('tiny_url');
+        if (empty($tinyURL)) {
+            $tinyURL = $this->modx->getOption('fredrtetinymce.tiny_url', null, $this->getOption('assetsUrl') . 'web/tinymce/tinymce.min.js');
+        }
+        if (strpos($tinyURL, '{') !== false) {
+            $tinyURL = str_replace([
+                '{base_url}',
+                '{assets_url}',
+                '{fredrtetinymce.assets_url}',
+            ], [
+                $this->modx->getOption('base_url'),
+                $this->modx->getOption('assets_url'),
+                $this->getOption('assetsUrl'),
+            ], $tinyURL);
+        }
+        return $tinyURL;
+    }
 }
