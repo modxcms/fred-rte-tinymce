@@ -1,0 +1,24 @@
+<?php
+
+$_lang['fredrtetinymce.page'] = 'Seite';
+$_lang['fredrtetinymce.block_on'] = 'Blockieren auf \'[[+page]]\'';
+$_lang['fredrtetinymce.anchor'] = 'Anker-Tag';
+$_lang['fredrtetinymce.url'] = 'URL';
+$_lang['fredrtetinymce.email'] = 'E-Mail';
+$_lang['fredrtetinymce.to'] = 'An';
+$_lang['fredrtetinymce.subject'] = 'Betreff';
+$_lang['fredrtetinymce.body'] = 'Nachrichten-Text';
+$_lang['fredrtetinymce.phone'] = 'Telefon';
+$_lang['fredrtetinymce.file'] = 'Datei';
+$_lang['fredrtetinymce.link_text'] = 'Link-Text';
+$_lang['fredrtetinymce.link_to'] = 'Link to';
+$_lang['fredrtetinymce.link'] = 'Link';
+$_lang['fredrtetinymce.ok'] = 'Ok';
+$_lang['fredrtetinymce.cancel'] = 'Abbrechen';
+$_lang['fredrtetinymce.remove_link'] = 'Remove Link';
+$_lang['fredrtetinymce.link_title'] = 'Link-Titel';
+$_lang['fredrtetinymce.classes'] = 'CSS-Klassen';
+$_lang['fredrtetinymce.new_window'] = 'Neues Fenster';
+$_lang['fredrtetinymce.page_title'] = 'Ressource auswählen';
+$_lang['fredrtetinymce.tooltip'] = 'Link einfügen/bearbeiten';
+$_lang['fredrtetinymce.parameters'] = 'Weitere Parameter';
