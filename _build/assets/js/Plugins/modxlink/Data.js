@@ -1,10 +1,22 @@
+import Optional from './Optional';
+import {collectNodesInRange, isImageFigure} from "./Functions";
+
 export default class Data {
     constructor(editor) {
         this.editor = editor;
         window.editor = editor;
-        this.element = editor.dom.getParent(editor.selection.getStart(), 'a[href]');
-        const textarea = document.createElement('textarea');
-        textarea.innerHTML = this.editor.selection.getContent();
+        this.element = this.getAnchorElement(editor, this.editor.selection.getNode()).getOr(null);
+        if (this.element === null) {
+            let testElement = document.createElement('div');
+            testElement.innerHTML = this.editor.selection.getContent();
+            for (let i = 0; i < testElement.children.length; i++) {
+                if (testElement.children[i].tagName === 'A') {
+                    this.element = testElement.children[i];
+                    this.editor.selection.select(this.element);
+                    break;
+                }
+            }
+        }
         
         this.initialData = {
             link_text: this.editor.selection.getContent(),
@@ -32,7 +44,16 @@ export default class Data {
         this.activeTab = 'url';
         this.data = this.parseData();
     }
-    
+    getLinksInSelection = rng => collectNodesInRange(rng, isLink);
+    getAnchorElement = (editor, selectedElm) => {
+        selectedElm = selectedElm || this.getLinksInSelection(editor.selection.getRng())[0] || editor.selection.getNode();
+        if (isImageFigure(selectedElm)) {
+            return Optional.from(editor.dom.select('a[href]', selectedElm)[0]);
+        } else {
+            return Optional.from(editor.dom.getParent(selectedElm, 'a[href]'));
+        }
+    };
+
     getData() {
         return this.data;
     }
