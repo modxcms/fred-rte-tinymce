@@ -1,5 +1,9 @@
 Changelog for FredRTETinyMCE.
 
+1.4.1
+==============
+- Improve link handling
+
 1.4.0
 ==============
 - Package with local TinyMCE files
