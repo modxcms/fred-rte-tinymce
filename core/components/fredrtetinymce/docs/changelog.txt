@@ -1,5 +1,9 @@
 Changelog for FredRTETinyMCE.
 
+1.4.2
+==============
+- Fix issue with link window not opening
+
 1.4.1
 ==============
 - Improve link handling
