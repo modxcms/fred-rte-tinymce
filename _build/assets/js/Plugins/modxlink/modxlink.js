@@ -299,7 +299,7 @@ export default (fred, pluginTools) => {
                     });
 
                     templateInputChoices.ajax(callback => {
-                        fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&current=${data.page_page}&modx=${fredConfig.config.modxVersion}`, {
+                        fetch(`${fredConfig.config.assetsUrl}endpoints/ajax.php?action=get-resources&current=${choicesData.page_page}&modx=${fredConfig.config.modxVersion}`, {
                             credentials: 'same-origin',
                             headers: {
                                 'X-Fred-Token': fredConfig.jwt
@@ -313,8 +313,14 @@ export default (fred, pluginTools) => {
                                 callback(json.data.resources, 'value', 'pagetitle');
 
                                 if (json.data.current) {
-                                    templateInputChoices.setChoices([json.data.current], 'value', 'pagetitle', false);
-                                    templateInputChoices.setValueByChoice(data.page_page);
+                                    templateInputChoices.setValue([{
+                                        id: json.data.current.id,
+                                        highlighted: true,
+                                        active: true,
+                                        selected: true,
+                                        label: json.data.current.pagetitle,
+                                        value: json.data.current.value
+                                    }]);
 
                                     const pageAnchorEl = document.getElementById('page_anchor-l');
                                     if (pageAnchorEl) {
@@ -379,7 +385,7 @@ export default (fred, pluginTools) => {
                 onTabChange: (dialogApi, details) => {
                     currentTab = details.newTabName;
 
-                    if (currentTab === 'page' && !templateInputChoices && !editor.options.get('enable_link_list')) {
+                    if (currentTab === 'page' && !editor.options.get('enable_link_list')) {
                         initChoices();
                     }
                 },
@@ -499,7 +505,14 @@ export default (fred, pluginTools) => {
                         return response.json();
                     })
                     .then(data => {
-                        editor.options.set('link_list', transformLinkList(data.data.resources) || []);
+                        let list = [{
+                            title: fredConfig.lng('fredrtetinymce.page_select'),
+                            value: '',
+                            display: fredConfig.lng('fredrtetinymce.page_select'),
+                            classes: '',
+                        }];
+                        list = list.concat(transformLinkList(data.data.resources) || [])
+                        editor.options.set('link_list', list);
                     })
                     .catch(error => {
                         console.log(error);
